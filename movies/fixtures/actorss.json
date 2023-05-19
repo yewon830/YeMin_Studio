@@ -1,0 +1,18 @@
+[
+  {
+    "model": "movies.actor",
+    "pk": 2182,
+    "fields": {
+      "id": 7639,
+      "name": "Joan Bennett"
+    }
+  },
+  {
+    "model": "movies.actor",
+    "pk": 2183,
+    "fields": {
+      "id": 64212,
+      "name": "Dan Duryea"
+    }
+  }
+]

@@ -15,22 +15,33 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = '__all__'
         
-class DirectorSerializer(serializers.ModelSerializer):
+class DirectorNameSerializer(serializers.ModelSerializer):
     
     class Meta:
         
         model = Director
-        fields = '__all__'
-class GenreSerializer(serializers.ModelSerializer):
+        fields = ('name', )
+        
+class GenreListSerializer(serializers.ModelSerializer):
     
     class Meta:
         
         model = Genre
-        fields = '__all__'
+        fields = ('id', 'name')
         
-class ActorSerializer(serializers.ModelSerializer):
+class ActorListSerializer(serializers.ModelSerializer):
     
     class Meta:
         
         model = Actor
-        fields = '__all__'
+        fields = ('id', 'name')
+        
+class MovieDetailSerializer(serializers.ModelSerializer):
+    # 장르, 영화감독 , 배우, 영화, 
+    genre = GenreListSerializer(many=True, read_only=True)
+    director = DirectorNameSerializer(read_only=True)
+    actors = ActorListSerializer(many=True, read_only=True)
+    class Meta:
+        model = Movie
+        exclude = ('vote_count', 'revenue', 'budget', 'popularity')
+    

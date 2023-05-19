@@ -10,12 +10,12 @@ import random
 
 # Create your views here.
 @api_view(['GET'])
-def movie_home(request):
+def movie_home(request,page_number):
     movie_list = list(Movie.objects.all())
     random.shuffle(movie_list)
     paginator = Paginator(movie_list, 30)
     
-    page_number = 1
+    # page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     movie_data = MovieSerializer(page_obj, many=True)
     return Response(movie_data.data)
@@ -28,7 +28,7 @@ def movie_detail(request, movie_pk):
 
 @api_view(['GET'])
 def movie_search(request, sw_value):
-    movie_list = Movie.objects.filter(Q(title__contains=sw_value) | Q(overview__contains=sw_value))
+    movie_list = Movie.objects.filter(Q(title__contains=''.join(char for char in sw_value)) | Q(overview__contains=sw_value) | Q(title__icontains=sw_value))
     
     paginator = Paginator(movie_list, 30)
     

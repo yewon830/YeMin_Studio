@@ -6,6 +6,8 @@ import TestView from '@/views/test'
 import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 import SearchMovieView from '@/views/SearchMovieView'
+import DetailMovieView from '@/views/DetailMovieView'
+import ReviewView from '@/views/ReviewView'
 
 Vue.use(VueRouter)
 
@@ -14,6 +16,16 @@ const routes = [
     path: '/movies/:page',
     name: 'MovieView',
     component: MovieView
+  },
+  {
+    path: '/movies/detail/:movieId/review',
+    name: 'ReviewView',
+    component: ReviewView
+  },
+  {
+    path: '/movies/detail/:movieId',
+    name: 'DetailMovieView',
+    component: DetailMovieView
   },
   {
     path: '/test',

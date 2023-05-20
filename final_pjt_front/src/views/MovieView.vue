@@ -1,15 +1,18 @@
 <template>
   <div>
-    <h1>MovieView</h1>
-    <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" />
-    <div class="d-flex">
-      <a href="http://localhost:8080/movies/1">처음으로</a>
-      <button @click="prevPage">이전</button>
+    <h1 class="text-start">영화 목록</h1>
+    <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4" >
+      <MovieItem class="" v-for="movie in movies" :key="movie.title" :movie="movie" />
+    </div>
+    
+    <div class="d-flex justify-content-center">
+      <a class="page-button" href="http://localhost:8080/movies/1" >처음으로</a>
+      <button class="page-button" @click="prevPage">이전</button>
       <div v-for="i in displayPerPage" :key="i">
-        <a :href="`http://localhost:8080/movies/${i}`">{{ i }}</a>
+        <a class="page-button" :href="`http://localhost:8080/movies/${i}`">{{ i }}</a>
       </div>
-      <button @click="nextPage">다음</button>
-      <a :href="`http://localhost:8080/movies/${totalPage}`">마지막으로</a>
+      <button class="page-button" @click="nextPage">다음</button>
+      <a class="page-button" :href="`http://localhost:8080/movies/${totalPage}`">마지막으로</a>
     </div>
   </div>
 </template>
@@ -78,4 +81,14 @@ export default {
 </script>
 
 <style>
+.text-start {
+  text-align: start;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+.page-button{
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 </style>

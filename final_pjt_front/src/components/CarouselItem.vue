@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style>
-img{
+carousel-inner > img{
     filter: brightness(60%);
 }
 .home-text{

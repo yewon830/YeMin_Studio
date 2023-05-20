@@ -1,19 +1,16 @@
 <template>
   <div id="app">
     <nav class="navbar">
-      <div class="d-flex">
-        <div>
+      <div class="container-fluid nav-div">
           <router-link :to="{name:'HomeView'}" style="color: #3395f4;">YeMin TV</router-link>
-        </div>
-        <div>
+
           <router-link :to="{name:'MovieView', params:{page:1}}">영화</router-link>
           <router-link :to="{name:'test'}">test</router-link>
-        </div>
-        <div>
+
           <SearchForm/>
           <router-link :to="{name:'SignUpView'}">회원가입</router-link>
           <router-link :to="{name:'LoginView'}">로그인</router-link>
-        </div>
+
 
 
       </div>
@@ -33,8 +30,10 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,900;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;500;700;900&family=Poppins:wght@500;700;900&display=swap');
 #app {
-  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+  font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -42,28 +41,33 @@ export default {
 }
 
 nav {
-  padding: 30px;
-  color: #999c9f;
-  
+  color: #d4d7db;
+  background-color: #141517;
+}
+
+.nav-div{
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  padding-bottom: 0px;
 }
 
 nav a {
-  font-weight: bold;
-  color: #a8acb3;
+  font-weight: 500;
+  color: #d4d7db;
   text-decoration: none;
   margin: 20px;
   height: 100%;
   white-space: nowrap;
-  font-size: 20px;
-  color: #999c9f;
+  font-size: 17px;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #4590e3;
 }
 
 body {
-  background-color: #060d17;
+  background-color: #000000;
 }
 </style>
 

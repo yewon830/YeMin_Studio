@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1>MovieView</h1>
-    <MovieItem v-for="movie in movies" :key="movie" :movie="movie" />
+    <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" />
     <div class="d-flex">
-      <a href="http://localhost:8080/movies/?page=1">처음으로</a>
+      <a href="http://localhost:8080/movies/1">처음으로</a>
       <button @click="prevPage">이전</button>
       <div v-for="i in displayPerPage" :key="i">
-        <a :href="`http://localhost:8080/movies/?page=${i}`">{{ i }}</a>
+        <a :href="`http://localhost:8080/movies/${i}`">{{ i }}</a>
       </div>
       <button @click="nextPage">다음</button>
-      <a :href="`http://localhost:8080/movies/?page=${totalPage}`">마지막으로</a>
+      <a :href="`http://localhost:8080/movies/${totalPage}`">마지막으로</a>
     </div>
   </div>
 </template>
@@ -52,10 +52,9 @@ export default {
   methods: {
     getPerPageMovies() {
       axios({
-        url: `http://127.0.0.1:8000/movies/?page=${this.currentPage}/`,
+        url: `http://127.0.0.1:8000/movies/${this.currentPage}/`,
       })
         .then((response) => {
-          console.log(response)
           this.movies = response.data
         })
         .catch((err) => {
@@ -65,13 +64,13 @@ export default {
     nextPage() {
       if (this.startPage + 10 <= this.totalPage) {
         const nextPage = this.startPage + 10
-        window.location.href = `http://localhost:8080/movies/?page=${nextPage}`
+        window.location.href = `http://localhost:8080/movies/${nextPage}`
       }
     },
     prevPage() {
       if (this.startPage > 10) {
         const prevPage = this.startPage - 10
-        window.location.href = `http://localhost:8080/movies/?page=${prevPage}`
+        window.location.href = `http://localhost:8080/movies/${prevPage}`
       }
     },
   },

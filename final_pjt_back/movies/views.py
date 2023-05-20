@@ -11,12 +11,12 @@ from functools import reduce
 from operator import and_
 # Create your views here.
 @api_view(['GET'])
-def movie_home(request):
+def movie_home(request,page_number):
     movie_list = list(Movie.objects.all())
     random.shuffle(movie_list)
     paginator = Paginator(movie_list, 30)
     
-    page_number = 1
+    # page_number = 1
     page_obj = paginator.get_page(page_number)
     movie_data = MovieSerializer(page_obj, many=True)
     return Response(movie_data.data)

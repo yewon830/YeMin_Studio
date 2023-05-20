@@ -4,7 +4,7 @@
 
     <div v-for="movie in movies" :key="movie.title">
         <p>
-            {{movie.title}}
+            {{movie}}
         </p>
     </div>
   </div>
@@ -26,7 +26,7 @@ export default {
     methods: {
         getSearchMovies(){
             axios({
-                url: `http://127.0.0.1:8000/movies/${this.$route.params.keyword}/`
+                url: `http://127.0.0.1:8000/movies/keyword=${this.$route.params.keyword}/`
             })
             .then((response)=>{
                 this.movies = response.data

@@ -56,7 +56,6 @@ def profile(request, username):
     
     data = {
         'username': user.username,
-        'nickname': user.nickname,
         'profile_image': user.profile_image.url if user.profile_image else None,
         'following_count': following_count,
         'followers_count': followers_count,

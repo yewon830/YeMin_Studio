@@ -15,6 +15,7 @@
             <div class="input-box">
                 <input name="password" v-model="password" type="password" autocapitalize="off">
             </div>
+            <button class="btn btn-primary">확인</button>
         </form>
     </div>
   </div>
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-    name:':LoginView',
+    name:'LoginView',
     data(){
         return {
             email: null,

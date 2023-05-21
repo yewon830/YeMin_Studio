@@ -11,10 +11,9 @@
           <router-link :to="{name:'SignUpView'}">회원가입</router-link>
           <router-link :to="{name:'LoginView'}">로그인</router-link>
 
-
-
       </div>
     </nav>
+    
     <router-view/>
   </div>
 </template>
@@ -40,7 +39,7 @@ export default {
   color: whitesmoke;
 }
 
-nav {
+#app > nav {
   color: #d4d7db;
   background-color: #141517;
 }

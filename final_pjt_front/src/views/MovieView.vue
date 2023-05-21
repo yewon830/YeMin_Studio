@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div >
     <h1 class="text-start">영화 목록</h1>
     <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4" >
-      <MovieItem class="" v-for="movie in movies" :key="movie.title" :movie="movie" />
+      <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" @click="openModal(movie)" />
     </div>
+    <DetailMovieView :movie="selectedMovie" v-if="ShowModal" @close="closeModal"/>
     
     <div class="d-flex justify-content-center">
       <a class="page-button" href="http://localhost:8080/movies/1" >처음으로</a>
@@ -14,10 +15,12 @@
       <button class="page-button" @click="nextPage">다음</button>
       <a class="page-button" :href="`http://localhost:8080/movies/${totalPage}`">마지막으로</a>
     </div>
+
   </div>
 </template>
 
 <script>
+import DetailMovieView from '@/views/DetailMovieView'
 import MovieItem from '../components/MovieItem.vue'
 import axios from 'axios'
 
@@ -25,11 +28,14 @@ export default {
   name: 'MovieView',
   components: {
     MovieItem,
+    DetailMovieView
   },
   data() {
     return {
       movies: null,
       totalPage : 34,
+      ShowModal : false,
+      selectedMovie : null
     }
   },
   computed: {
@@ -76,6 +82,14 @@ export default {
         window.location.href = `http://localhost:8080/movies/${prevPage}`
       }
     },
+    openModal(movie){
+      this.ShowModal = true
+      this.selectedMovie = movie
+    },
+    closeModal(){
+      this.ShowModal = false
+      this.selectedMovie = null
+    }
   },
 }
 </script>

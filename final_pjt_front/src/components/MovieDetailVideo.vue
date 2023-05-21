@@ -2,7 +2,16 @@
   <div>
     <div class="movie-info d-flex justify-content-around">
         <div style="width: 60%;">
-            <h1 class="text-start">{{movie.title}}</h1>
+            <div class="d-flex">
+                <h1 class="text-start">{{movie.title}}</h1>
+                <div  @click="likeMovie" class="pt-4 mx-4">
+                    <font-awesome-icon :color="heartColor" :icon="['fas', 'heart']" size="lg" />
+                </div>
+                <div  @click="wishMovie" class="pt-4">
+                    <font-awesome-icon :color="wishColor" :icon="['fasl', 'folder-open']" size="lg" />
+                </div>
+            </div>
+            
             <div style="min-height: 29.125rem; font-size: 0.875rem;">
                 <p class="text-overview">{{movie.overview}}</p>
                 <input type="checkbox" class="more-btn">
@@ -36,11 +45,46 @@ export default {
     name: 'MovieDetailVideo',
     props: {
         movie: Object
+    },
+    data(){
+        return{
+            isHeartClicked: false,
+            isWishClicked: false,
+            heartColor: 'white',
+            wishColor: 'white'
+        }
+    },
+    methods: {
+        likeMovie(){
+            this.$store.dispatch('likeMovie', this.movie.id)
+            this.isHeartClicked = !this.isHeartClicked
+            if (this.isHeartClicked === true){
+                this.heartColor = '#4590e3'
+            } else{
+                this.heartColor = 'white'
+            }
+
+        },
+        wishMovie(){
+            this.$store.dispatch('wishMovie', this.movie.id)
+            this.isWishClicked = !this.isWishClicked
+            if (this.isWishClicked === true){
+                this.wishColor = '#4590e3'
+            } else{
+                this.wishColor = 'white'
+            }
+        }
     }
+    
 }
 </script>
 
 <style>
+.modal,.overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
 .movie-info{
     padding: 40px 40px 40px 40px;
 }
@@ -77,4 +121,6 @@ aside{
 aside span{
     color: #d4d7db;
 }
+
+
 </style>

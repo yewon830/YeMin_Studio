@@ -30,6 +30,7 @@
             <div class="input-box">
                 <input type="password" v-model="password2" placeholder="비밀번호를 다시 입력해주세요" autocapitalize="off" spellcheck="false">
             </div>
+             <button class="btn btn-primary">확인</button>
            
 
         </form>

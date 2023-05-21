@@ -1,5 +1,8 @@
 <template>
-  <div>
+
+  <div class="modal-container">
+    
+    <button @click="closeModal">닫기</button>
     <MovieDetailVideo :movie="movie"/>
     <div>
       <router-link :to="{name:'ReviewView', params:{movieId:this.$route.params.movieId}}">리뷰 보기</router-link>
@@ -36,6 +39,9 @@ export default {
       .catch((err)=>{
         console.log(err)
       })
+    },
+    closeModal(){
+      this.$emit('close')
     }
   }
 }

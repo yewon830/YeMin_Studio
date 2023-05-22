@@ -1,13 +1,8 @@
 <template>
 
   <div class="modal-container">
-    
     <button @click="closeModal">닫기</button>
     <MovieDetailVideo :movie="movie"/>
-    <div>
-      <router-link :to="{name:'ReviewView', params:{movieId:this.$route.params.movieId}}">리뷰 보기</router-link>
-    </div>    
-    <router-view/>
   </div>
 </template>
 
@@ -22,18 +17,19 @@ export default {
   components: {
     MovieDetailVideo,
   },
+  
   data(){
     return{
       movie : null
     }
   },
+
   methods: {
     getDetailMovie(){
       axios({
         url : `http://127.0.0.1:8000/movies/d=${this.$route.params.movieId}/`
       })
       .then((response)=>{
-        console.log(response.data)
         this.movie = response.data
       })
       .catch((err)=>{

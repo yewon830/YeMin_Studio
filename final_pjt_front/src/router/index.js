@@ -8,7 +8,7 @@ import LoginView from '@/views/LoginView'
 import SearchMovieView from '@/views/SearchMovieView'
 import DetailMovieView from '@/views/DetailMovieView'
 import ReviewView from '@/views/ReviewView'
-
+import UpdateProfileView from '@/views/UpdateProfileView'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +16,11 @@ const routes = [
     path: '/movies/:page',
     name: 'MovieView',
     component: MovieView
+  },
+  {
+    path: '/updateprofile/:username',
+    name: 'UpdateProfileView',
+    component: UpdateProfileView
   },
   {
     path: '/movies/detail/:movieId/review',

@@ -4,10 +4,10 @@
     <div class="login-box">
         <form @submit.prevent="login">
             <div>
-                <label>이메일</label>
+                <label>닉네임</label>
             </div>
             <div class="input-box">
-                <input name="email" type="email" v-model="email" autocomplete="email" autocapitalize="none" spellcheck="false">
+                <input name="email" type="text" v-model="username" autocapitalize="none" spellcheck="false">
             </div>
             <div>
                 <label>비밀번호</label>
@@ -26,17 +26,17 @@ export default {
     name:'LoginView',
     data(){
         return {
-            email: null,
+            username: null,
             password: null,
         }
     },
     methods: {
         login(){
-            const email = this.email
+            const username = this.username
             const password = this.password
 
             const payload = {
-                email,password
+                username,password
             }
             this.$store.dispatch('login',payload)
         }

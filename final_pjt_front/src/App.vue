@@ -8,8 +8,16 @@
           <router-link :to="{name:'test'}">test</router-link>
 
           <SearchForm/>
-          <router-link :to="{name:'SignUpView'}">회원가입</router-link>
-          <router-link :to="{name:'LoginView'}">로그인</router-link>
+          <div v-if="isLogin" class="d-flex">
+            <a @click="logout">로그아웃</a>
+            <a>{{ username }}</a>
+
+          </div>
+          <div v-else class="d-flex">
+            <router-link :to="{name:'SignUpView'}">회원가입</router-link>
+            <router-link :to="{name:'LoginView'}">로그인</router-link>
+          </div>
+
 
       </div>
     </nav>
@@ -24,6 +32,19 @@ export default {
   name: 'App',
   components: {
     SearchForm
+  },
+  computed:{
+    isLogin(){
+      return this.$store.getters.isLogin
+    },
+    username(){
+      return this.$store.state.username
+    }
+  },
+  methods: {
+    logout(){
+      this.$store.dispatch('logout')
+    }
   }
 }
 </script>

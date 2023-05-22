@@ -11,15 +11,32 @@ from functools import reduce
 from operator import and_
 # Create your views here.
 @api_view(['GET'])
-def movie_home(request,page_number):
+def movie_home(request, page_number):
+    sort_option = request.GET.get('sort')  # 정렬 옵션을 요청에서 가져옴
+
     movie_list = list(Movie.objects.all())
-    random.shuffle(movie_list)
+
+    if sort_option == 'popularity':  # 인기순으로 정렬
+        print('1')
+        movie_list.sort(key=lambda movie: movie.popularity, reverse=True)
+    elif sort_option == 'vote_average':  # 평점순으로 정렬
+        print('2')
+        movie_list.sort(key=lambda movie: movie.vote_average, reverse=True)
+    elif sort_option == 'title':  # 가나다 순으로 정렬
+        print('3')
+        movie_list.sort(key=lambda movie: movie.title)
+
     paginator = Paginator(movie_list, 30)
-    
-    # page_number = 1
+
     page_obj = paginator.get_page(page_number)
     movie_data = MovieSerializer(page_obj, many=True)
-    return Response(movie_data.data)
+
+    # 현재 정렬 기준을 응답에 포함하여 전달
+    response_data = {
+        'movies': movie_data.data,
+        'sort_option': sort_option
+    }
+    return Response(response_data)
 
 @api_view(['GET'])
 def movie_detail(request, movie_pk):

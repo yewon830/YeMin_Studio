@@ -134,17 +134,19 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    logout(context){
+    logout(context) {
       axios({
         method: 'post',
         url: `${API_URL}/accounts/logout/`,
       })
-      .then(()=>{
+      .then(() => {
         context.commit('REMOVE_TOKEN')
         localStorage.removeItem('vuex')
-        router.push({name:'HomeView'})
+        router.push({ name: 'HomeView' })
       })
-
+      .catch((error) => {
+        console.log(error)
+      })
     }
     
 

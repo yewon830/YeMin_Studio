@@ -35,14 +35,14 @@ export default {
             }
             axios({
                 method: 'post',
-                url: `http://127.0.0.1:8000/articles/create/`,
+                url: `http://127.0.0.1:8000/articles/`,
                 headers: {
                 Authorization: `Token ${this.$store.state.token}`
                 },
                 data: {title,content}
             })
-            .then((response)=>{
-                console.log(response)
+            .then(()=>{
+                // console.log(response)
                 this.$router.push({name:'ArticleView'})
             })
             .catch((err)=>{

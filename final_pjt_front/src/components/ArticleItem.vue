@@ -1,8 +1,10 @@
 <template>
   <div>
     <router-link :to="{name:'ArticleDetailView', params:{articleId:article.id}}">
-    <h5>{{article.title}}</h5>
+    <span>{{article.title}}</span>
     </router-link>
+    <span>작성자 : {{article.username}}</span>
+    
   </div>
 </template>
 

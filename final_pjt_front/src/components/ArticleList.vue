@@ -1,7 +1,7 @@
 <template>
   <div>
-    
-    <ArticleItem  v-for="article in articleList" :key="article.id"/>
+
+    <ArticleItem  v-for="article in articleList" :key="article.id" :article="article"/>
   </div>
 </template>
 
@@ -12,9 +12,18 @@ export default {
     components:{
         ArticleItem
     },
-    computed: {
-        articleList(){
-            return this.$store.state.articleList
+    computed:{
+      articleList(){
+        return this.$store.state.articleList
+      }
+    },
+   created(){
+        this.getArticleList()
+    },
+    methods: {
+        getArticleList(){
+          
+            this.$store.dispatch('getArticleList')
         }
     }
 }

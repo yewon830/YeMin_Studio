@@ -13,15 +13,7 @@ export default {
     components: {
         ArticleList,
     },
-    created(){
-        this.getArticleList()
-    },
 
-    methods: {
-        getArticleList(){
-            this.$state.dispatch('getArticleList')
-        }
-    }
 }
 </script>
 

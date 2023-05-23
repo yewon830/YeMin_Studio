@@ -63,14 +63,14 @@ def logout_view(request):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     
-    following_count = user.following.count()
+    followings_count = user.followings.count()
     followers_count = user.followers.count()
-    reviews = user.review_set.all()
+    reviews = user.reviews.all()
     
     data = {
         'username': user.username,
         'profile_image': user.profile_image.url if user.profile_image else None,
-        'following_count': following_count,
+        'followings_count': followings_count,
         'followers_count': followers_count,
         'reviews': [review.text for review in reviews],
     }

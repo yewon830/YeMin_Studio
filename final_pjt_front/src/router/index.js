@@ -14,6 +14,7 @@ import ProfileView from '@/views/ProfileView'
 import ArticleView from '@/views/ArticleView'
 import ArticleDetailView from '@/views/ArticleDetailView'
 import ArticleCreateView from '@/views/ArticleCreateView'
+import ArticleUpdateView from '@/views/ArticleUpdateView'
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
     path: '/movies/:page',
     name: 'MovieView',
     component: MovieView
+  },
+  {
+    path: '/articles/:articleId/update',
+    name: 'ArticleUpdateView',
+    component: ArticleUpdateView
   },
   {
     path: '/articles',

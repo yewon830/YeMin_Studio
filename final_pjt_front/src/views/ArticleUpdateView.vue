@@ -1,6 +1,11 @@
 <template>
   <div>
     <h1>게시글 수정</h1>
+    <form @submit="updateArticleDetail">
+        <input type="text" v-model="title">
+        <textarea cols="30" rows="10" v-model="content"></textarea>
+        <button>수정</button>
+    </form>
   </div>
 </template>
 
@@ -36,6 +41,8 @@ export default {
 
         },
         updateArticleDetail(){
+            const title = this.title
+            const content = this.content
             if(!this.title){
                 alert('제목을 입력해주세요')
                 return
@@ -45,7 +52,7 @@ export default {
             }
             axios({
                 method: 'put',
-                url: `http://127.0.0.1:8000/articles/update/${this.$route.params.articleId}/`,
+                url: `http://127.0.0.1:8000/articles/${this.$route.params.articleId}/`,
                 data: {
                     title,content
                 },
@@ -53,12 +60,10 @@ export default {
                 Authorization: `Token ${this.$store.state.token}`
                 },
             })
-            .then(()=>{
-                this.$router.push({name:'ArticleDetailView', params:{articleId: this.$route.params.articleId}})
-            })
             .catch((err)=>{
                 console.log(err)
             })
+            this.$router.push({name:'ArticleDetailView', params:{articleId: this.$route.params.articleId}})
         }
     }
 }

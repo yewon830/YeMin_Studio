@@ -21,7 +21,8 @@ export default new Vuex.Store({
     currentUser: {},
     personalMovieList : {},
     //
-    ArticleList : [],
+    articleList : [],
+    commentList : [],
 
   },
   getters: {
@@ -30,6 +31,12 @@ export default new Vuex.Store({
     },
     authHeader(state){
       return ({ Authorization: `Token ${state.token}` })
+    },
+    computedarticleList(state){
+      return state.articleList
+    },
+    computedCommentList(state){
+      return state.commentList
     }
   },
   mutations: {
@@ -59,10 +66,12 @@ export default new Vuex.Store({
     GET_USER_MOVIE_LIST(state,movieList){
       state.personalMovieList = movieList
     },
-    GET_ARTICLELIST(state,articleList){
+    GET_ARTICLELIST(state, articleList){
       state.articleList = articleList
+    },
+    GET_COMMENT_LIST(state,comments){
+      state.commentList = comments
     }
-
   },
   actions: {
 
@@ -121,11 +130,13 @@ export default new Vuex.Store({
         data : {
           username,email,password1,password2
         },
-        headers : context.getters.authHeader
+        headers:{
+          Authorization : `Token ${this.state.token}`
+        }
       })
       .then((response)=>{
+        console.log(response)
         context.commit('UPDATE_PROFILE',response.data)
-
       })
       .catch((err)=>{
         console.log(err)
@@ -167,7 +178,9 @@ export default new Vuex.Store({
       axios({
         method: 'get',
         url: `${API_URL}/accounts/profile/${context.state.username}/`,
-        headers : context.getters.authHeader
+        headers:{
+          Authorization : `Token ${this.state.token}`
+        }
       })
       .then((response)=>{
         context.commit('GET_USER_PROFILE', response.data)
@@ -182,7 +195,7 @@ export default new Vuex.Store({
         url: `${API_URL}/accounts/logout/`,
         headers : {
           Authorization : `Token ${this.state.token}`
-        } 
+        }
       })
       .then(() => {
         context.commit('REMOVE_TOKEN')
@@ -211,13 +224,15 @@ export default new Vuex.Store({
     ////////////////아티클
     getArticleList(context){
       axios({
+        method: 'get',
         url: `${API_URL}/articles/`,
         headers : {
           Authorization : `Token ${this.state.token}`
         }
       })
       .then((response)=>{
-        context.commit('GET_ARTICLELIST',response.data)
+        context.commit('GET_ARTICLELIST', response.data)
+        console.log(response)
       })
       .catch((err)=>{
         console.log(err)
@@ -230,6 +245,39 @@ export default new Vuex.Store({
         headers : {
           Authorization : `Token ${this.state.token}`
         }
+      })
+      .then(()=>{
+        router.push({name:'ArticleView'})
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    getCommentList(context){
+      axios({
+        url: `${API_URL}/articles/comments/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then((response)=>{
+        context.commit('GET_COMMENT_LIST',response.data)
+
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    deleteComment(context,commentId){
+      axios({
+        method: 'delete',
+        url: `${API_URL}/articles/comments/${commentId}`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then(()=>{
+        context.dispatch('getCommentList')
       })
       .catch((err)=>{
         console.log(err)

@@ -6,6 +6,12 @@
     <p>팔로잉 : {{userProfile.following_count}}</p>
     <p>팔로워 : {{userProfile.followers_count}}</p>
     <h1>내가 쓴 리뷰</h1>
+    <div v-for="review in userProfile.reviews" :key="review.id">
+        <a :href="`http://localhost:8080/movies/detail/${review.movie_id}`">
+            <p>{{review.movie_id}} | </p>
+            <p>{{review.content}}</p>
+        </a>
+    </div>
   </div>
 </template>
 

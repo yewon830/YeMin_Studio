@@ -1,10 +1,6 @@
 <template>
   <div>
     <h1>회원정보 변경</h1>
-    <form @submit.prevent="updateProfileImage">
-      <p>프로필 사진</p>
-    </form>
-
     <form @submit.prevent="updateProfile">
         <p>닉네임</p>
         <input type="text" v-model="username">
@@ -29,10 +25,39 @@ export default {
         email: null,
         username: null,
       }
-
+    },
+    // computed : {
+    //   originUserProfile(){
+    //     return this.$store.state.userProfile
+    //   }
+    // },  
+    created(){
+      this.getUserProfile()
     },
     methods: {
+      getUserProfile(){
+            this.$store.dispatch('getUserProfile')
+            const userProfile = this.$store.state.userProfile
+            this.email = userProfile.email
+            this.username = userProfile.username
+      },
       updateProfile(){
+        if(this.password1!= this.password2){
+          alert('패스워드가 일치하지 않습니다')
+          return
+        }
+        if(!this.password1){
+          alert('패스워드를 입력해주세요')
+          return
+        }
+        if(!this.password2){
+          alert('패스워드 확인을 해주세요.')
+          return
+        }
+        if(!this.username){
+          alert('닉네임을 입력해주세요.')
+          return
+        }
         const username = this.username
         const password1 = this.password1
         const password2 = this.password2

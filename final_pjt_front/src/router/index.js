@@ -7,10 +7,13 @@ import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 import SearchMovieView from '@/views/SearchMovieView'
 import DetailMovieView from '@/views/DetailMovieView'
-import ReviewView from '@/views/ReviewView'
+
 import UpdateProfileView from '@/views/UpdateProfileView'
 import MyContentView from '@/views/MyContentView'
 import ProfileView from '@/views/ProfileView'
+import ArticleView from '@/views/ArticleView'
+import ArticleDetailView from '@/views/ArticleDetailView'
+import ArticleCreateView from '@/views/ArticleCreateView'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,14 +23,24 @@ const routes = [
     component: MovieView
   },
   {
-    path: '/updateprofile/:username',
-    name: 'UpdateProfileView',
-    component: UpdateProfileView
+    path: '/articles',
+    name: 'ArticleView',
+    component: ArticleView
   },
   {
-    path: '/movies/detail/:movieId/review',
-    name: 'ReviewView',
-    component: ReviewView
+    path: '/articles/:articleId',
+    name: 'ArticleDetailView',
+    component: ArticleDetailView
+  },
+  {
+    path: '/articles/create',
+    name: 'ArticleCreateView',
+    component: ArticleCreateView
+  },
+  {
+    path: '/updateprofile/',
+    name: 'UpdateProfileView',
+    component: UpdateProfileView
   },
   {
     path: '/profile',

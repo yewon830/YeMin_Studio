@@ -8,6 +8,7 @@
           <router-link :to="{name:'test'}">test</router-link>
           <div v-if="isLogin">
             <router-link :to="{name:'MyContentView'}">내 컨텐츠</router-link>
+            <router-link :to="{name:'ArticleView'}">커뮤니티</router-link>
           </div>
 
 
@@ -19,7 +20,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="http://localhost:8080/profile">나의 프로필</a></li>
-                <li><a class="dropdown-item" href="#">프로필 변경</a></li>
+                <li><a class="dropdown-item" href="http://localhost:8080/updateprofile">프로필 변경</a></li>
             </ul>
             </div>
             <a @click="logout">로그아웃</a>

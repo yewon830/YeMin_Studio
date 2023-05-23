@@ -20,6 +20,9 @@ export default new Vuex.Store({
     userProfile : {},
     currentUser: {},
     personalMovieList : {},
+    //
+    ArticleList : [],
+
   },
   getters: {
     isLogin(state){
@@ -55,6 +58,9 @@ export default new Vuex.Store({
     },
     GET_USER_MOVIE_LIST(state,movieList){
       state.personalMovieList = movieList
+    },
+    GET_ARTICLELIST(state,articleList){
+      state.articleList = articleList
     }
 
   },
@@ -191,6 +197,34 @@ export default new Vuex.Store({
       })
       .then((response)=>{
         context.commit('GET_USER_MOVIE_LIST', response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+
+    ////////////////아티클
+    getArticleList(context){
+      axios({
+        url: `${API_URL}/articles/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then((response)=>{
+        context.commit('GET_ARTICLELIST',response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    deleteArticle(context,payload){
+      axios({
+        method: 'delete',
+        url: `${API_URL}/articles/${payload}`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
       })
       .catch((err)=>{
         console.log(err)

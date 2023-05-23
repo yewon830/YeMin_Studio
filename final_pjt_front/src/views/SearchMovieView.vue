@@ -4,7 +4,6 @@
     <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4">
         <SearchMovieItem v-for="movie in movies" :key="movie.title" :movie="movie"/>
     </div>
-    
   </div>
   
 </template>

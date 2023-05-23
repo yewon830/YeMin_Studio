@@ -2,15 +2,17 @@
   <div class="modal-container">
     <button @click="closeModal">닫기</button>
     <MovieDetailVideo :movie="movie" />
-    <div>
-      <router-link :to="{ name: 'ReviewView', params: { movieId: $route.params.movieId } }">리뷰 보기</router-link>
+    <button @click="showReview">리뷰 보기</button>
+    <div v-if="isBtnClicked">
+      <!-- 리뷰 보여줘야 함 -->
+      <ReviewView :movie-id="movie.id"/>
     </div>
-    <router-view />
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import ReviewView from '@/components/ReviewView'
 import MovieDetailVideo from '@/components/MovieDetailVideo';
 
 export default {
@@ -20,10 +22,12 @@ export default {
   },
   components: {
     MovieDetailVideo,
+    ReviewView
   },
   data() {
     return {
       movie: null,
+      isBtnClicked : false,
     };
   },
   methods: {
@@ -42,6 +46,9 @@ export default {
     closeModal() {
       this.$emit('close');
     },
+    showReview(){
+      this.isBtnClicked = !this.isBtnClicked
+    }
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <h1 class="text-start">영화 목록</h1>
     <div class="d-flex justify-content-center mt-4">
       <button class="sort-button" :class="{ active: sortOption === 'popularity' }" @click="changeSortOption('popularity')">인기순</button>
@@ -9,6 +9,7 @@
     <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4" >
       <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" @openModal="openModal" />
     </div>
+    <DetailMovieView :movie="selectedMovieId" v-if="showModal" @close-modal="closeModal" />
     
     <div class="d-flex justify-content-center">
       <a class="page-button" :href="getPageUrl(1)+sortOption">처음으로</a>
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-// import DetailMovieView from '@/views/DetailMovieView'
+import DetailMovieView from '@/views/DetailMovieView'
 import MovieItem from '../components/MovieItem.vue'
 import axios from 'axios'
 
@@ -31,7 +32,7 @@ export default {
   name: 'MovieView',
   components: {
     MovieItem,
-    // DetailMovieView
+    DetailMovieView
   },
   data() {
     return {

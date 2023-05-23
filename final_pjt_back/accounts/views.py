@@ -5,30 +5,29 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.authtoken.models import Token
 import json
 from movies.models import Movie
 # Create your views here.
 
 # 회원가입
 @api_view(['POST']) 
-def sign_up(resquest):
-    username = resquest.data.get('username')
-    email = resquest.data.get('email')
-    password1 = resquest.data.get('password1')
-    password2 = resquest.data.get('password2')
+def sign_up(request):
+    username = request.data.get('username')
+    email = request.data.get('email')
+    password1 = request.data.get('password1')
+    password2 = request.data.get('password2')
     
     if password1 != password2:
-        return Response({'error' : '비밀번호 확인에 실패하였습니다'}, status=400)
+        return Response({'error': '비밀번호 확인에 실패하였습니다'}, status=400)
     
     try:
         user = User.objects.create_user(username=username, email=email, password=password1)
-        refresh = RefreshToken.for_user(user)
-
+        token, _ = Token.objects.get_or_create(user=user)
+        
         return Response({
             'success': '회원가입에 성공하였습니다',
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'token': token.key,
         })
     except Exception as e:
         return Response({'error': str(e)}, status=400)
@@ -43,11 +42,11 @@ def login_view(request):
     
     if user is not None:
         login(request, user)
-        refresh = RefreshToken.for_user(user)
+        token, _ = Token.objects.get_or_create(user=user)
+        
         return Response({
             'success': '로그인에 성공하였습니다',
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'token': token.key,
         })
     else:
         return Response({'error': '다시 시도해주십시오'}, status=400)
@@ -84,10 +83,12 @@ def profile(request, username):
 def profile_update(request):
     username = request.data.get('username')
     profile_image = request.data.get('profile_image')
+    password = request.data.get('password')
     
     user = request.user
     user.username = username
     user.profile_image = profile_image
+    user.password = password
     user.save()
     
     return Response({'success' : '프로필 수정에 성공하였습니다'})
@@ -115,3 +116,15 @@ def mycontents(request):
         'like_movies': like_movies,
         'wish_movies': wish_movies
     })
+
+# 팔로우 팔로잉
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow(request, user_pk):
+    person = get_object_or_404(User, pk=user_pk)
+    if person != request.user:
+        if person.followers.filter(pk=request.user.pk).exists():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+    return Response(status=204)

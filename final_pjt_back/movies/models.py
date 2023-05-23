@@ -29,6 +29,7 @@ class Movie(models.Model):
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
     overview = models.TextField()
     popularity = models.FloatField()
+    video_key = models.CharField(max_length=100)
     poster_path = models.CharField(max_length=100)
     release_date = models.DateField()
     vote_average = models.FloatField()

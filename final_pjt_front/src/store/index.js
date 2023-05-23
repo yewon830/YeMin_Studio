@@ -132,11 +132,13 @@ export default new Vuex.Store({
       })
     },
     likeMovie(context,movieId){
+      console.log(context.getters.authHeader)
       axios({
         method:'post',
         url: `${API_URL}/movies/${movieId}/likes/`,
-        //가정
-        headers: context.getters.authHeader
+        headers:{
+          Authorization : `Token ${this.state.token}`
+        }
       })
       .then((response)=>{
         context.commit('LIKE_MOVIE', response.data)
@@ -146,10 +148,13 @@ export default new Vuex.Store({
       })
     },
     wishMovie(context,movieId){
+      console.log(context.getters.authHeader)
       axios({
         method: 'post',
         url: `${API_URL}/movies/${movieId}/wish/`,
-        headers: context.getters.authHeader
+        headers: {
+          Authorization : `Token ${this.state.token}`
+        }
       })
       .then((response)=>{
         context.commit('WISH_MOVIE', response.data)

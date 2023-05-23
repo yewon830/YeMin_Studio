@@ -14,10 +14,11 @@ export default new Vuex.Store({
   state: {
     movies : [],
     token : null,
-    likeMovies: [],
-    wishMovies:[],
+    likeMovie: [],
+    wishMovie:[],
     username: null,
-    userProfile : {}
+    userProfile : {},
+    currentUser: {}
   },
   getters: {
     isLogin(state){
@@ -33,10 +34,10 @@ export default new Vuex.Store({
       router.push({name:'MovieView'})
     },
     LIKE_MOVIE(state, movie){
-      state.likeMovies.push(movie)
+      state.likeMovie = movie
     },
     WISH_MOVIE(state,movie){
-      state.wishMovies.push(movie)
+      state.wishMovie = movie
     },
     SAVE_USERNAME(state,username){
       state.username = username
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     REMOVE_TOKEN(state){
       state.token = null
+    },
+    UPDATE_PROFILE(state,userInfo){
+      state.currentUser = userInfo
     }
 
   },
@@ -94,6 +98,26 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    updateProfile(context,payload){
+      const username = payload.username
+      const email = payload.email
+      const password1 = payload.password1
+      const password2 = payload.password2
+      axios({
+        method: 'put',
+        url: `${API_URL}/accounts/profile/update/`,
+        data : {
+          username,email,password1,password2
+        }
+      })
+      .then((response)=>{
+        context.commit('UPDATE_PROFILE',response.data)
+
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     },
     likeMovie(context,movieId){
       axios({

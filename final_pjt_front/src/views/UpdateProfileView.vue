@@ -16,7 +16,6 @@
         <input type="password" v-model="password2">
         <button>변경</button>
     </form>
-
   </div>
 </template>
 

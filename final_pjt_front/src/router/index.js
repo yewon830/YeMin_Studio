@@ -9,6 +9,8 @@ import SearchMovieView from '@/views/SearchMovieView'
 import DetailMovieView from '@/views/DetailMovieView'
 import ReviewView from '@/views/ReviewView'
 import UpdateProfileView from '@/views/UpdateProfileView'
+import MyContentView from '@/views/MyContentView'
+import ProfileView from '@/views/ProfileView'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,9 +30,19 @@ const routes = [
     component: ReviewView
   },
   {
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView
+  },
+  {
     path: '/movies/detail/:movieId',
     name: 'DetailMovieView',
     component: DetailMovieView
+  },
+  {
+    path: '/movies/mycontent/',
+    name: 'MyContentView',
+    component: MyContentView
   },
   {
     path: '/test',

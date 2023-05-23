@@ -18,14 +18,15 @@ export default new Vuex.Store({
     wishMovie:[],
     username: null,
     userProfile : {},
-    currentUser: {}
+    currentUser: {},
+    personalMovieList : {},
   },
   getters: {
     isLogin(state){
       return state.token ? true : false
     },
     authHeader(state){
-      return { Authorization: `Token ${state.token}` }
+      return ({ Authorization: `Token ${state.token}` })
     }
   },
   mutations: {
@@ -47,9 +48,13 @@ export default new Vuex.Store({
     },
     REMOVE_TOKEN(state){
       state.token = null
+      state.username = null
     },
     UPDATE_PROFILE(state,userInfo){
       state.currentUser = userInfo
+    },
+    GET_USER_MOVIE_LIST(state,movieList){
+      state.personalMovieList = movieList
     }
 
   },
@@ -109,7 +114,8 @@ export default new Vuex.Store({
         url: `${API_URL}/accounts/profile/update/`,
         data : {
           username,email,password1,password2
-        }
+        },
+        headers : context.getters.authHeader
       })
       .then((response)=>{
         context.commit('UPDATE_PROFILE',response.data)
@@ -124,7 +130,7 @@ export default new Vuex.Store({
         method:'post',
         url: `${API_URL}/movies/${movieId}/likes/`,
         //가정
-        headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+        headers: context.getters.authHeader
       })
       .then((response)=>{
         context.commit('LIKE_MOVIE', response.data)
@@ -137,7 +143,7 @@ export default new Vuex.Store({
       axios({
         method: 'post',
         url: `${API_URL}/movies/${movieId}/wish/`,
-        headers: {Authorization: `Token ${localStorage.getItem('token')}`}
+        headers: context.getters.authHeader
       })
       .then((response)=>{
         context.commit('WISH_MOVIE', response.data)
@@ -150,6 +156,7 @@ export default new Vuex.Store({
       axios({
         method: 'get',
         url: `${API_URL}/accounts/profile/${context.state.username}/`,
+        headers : context.getters.authHeader
       })
       .then((response)=>{
         context.commit('GET_USER_PROFILE', response.data)
@@ -162,6 +169,9 @@ export default new Vuex.Store({
       axios({
         method: 'post',
         url: `${API_URL}/accounts/logout/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        } 
       })
       .then(() => {
         context.commit('REMOVE_TOKEN')
@@ -171,9 +181,21 @@ export default new Vuex.Store({
       .catch((error) => {
         console.log(error)
       })
+    },
+    getUserMovieList(context){
+      axios({
+        url: `${API_URL}/accounts/movie_list/${this.state.username}/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        } 
+      })
+      .then((response)=>{
+        context.commit('GET_USER_MOVIE_LIST', response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     }
-    
-
   },
   modules: {
   }

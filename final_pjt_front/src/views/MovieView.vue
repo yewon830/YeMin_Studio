@@ -31,7 +31,7 @@ export default {
   name: 'MovieView',
   components: {
     MovieItem,
-    DetailMovieView
+    // DetailMovieView
   },
   data() {
     return {
@@ -59,8 +59,13 @@ export default {
     },
     
   },
-  created() {
-    this.getPerPageMovies()
+  watch: {
+    currentPage: {
+      handler() {
+        this.getPerPageMovies();
+      },
+      immediate: true // 초기 로드시에도 호출되도록 immediate 옵션을 추가합니다.
+    }
   },
   methods: {
     getPerPageMovies() {

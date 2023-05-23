@@ -6,11 +6,24 @@
 
           <router-link :to="{name:'MovieView', params:{page:1}}">영화</router-link>
           <router-link :to="{name:'test'}">test</router-link>
+          <div v-if="isLogin">
+            <router-link :to="{name:'MyContentView'}">내 컨텐츠</router-link>
+          </div>
+
 
           <SearchForm/>
           <div v-if="isLogin" class="d-flex">
+            <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ username }}
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="http://localhost:8080/profile">나의 프로필</a></li>
+                <li><a class="dropdown-item" href="#">프로필 변경</a></li>
+            </ul>
+            </div>
             <a @click="logout">로그아웃</a>
-            <a>{{ username }}</a>
+
 
           </div>
           <div v-else class="d-flex">
@@ -88,6 +101,24 @@ nav a.router-link-exact-active {
 
 body {
   background-color: #000000;
+}
+
+.dropdown-menu{
+  width: 100px;
+
+}
+
+.dropdown-item{
+  text-align: center;
+  padding: 10px 0 10px 0;
+  margin: 0;
+}
+
+
+.dropdown-item:hover{
+  width: 100%;
+  margin: 0;
+  padding: 10px 0 10px 0;
 }
 </style>
 

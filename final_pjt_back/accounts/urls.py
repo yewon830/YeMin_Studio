@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('profile/update/', views.profile_update, name='profile-update'),
+    path('mycontents/', views.mycontents, name='mycontents')
     # path('userinfo/', views.userinfo),
     # path('userinfo/', views.userinfo),
     # path('userinfo/', views.userinfo),

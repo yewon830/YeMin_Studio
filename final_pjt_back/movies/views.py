@@ -64,3 +64,4 @@ def movie_search(request, sw_value):
 #     end = start + 30
 #     movies = movie_list[start:end]
 #     return JsonResponse(movies, safe=False)    
+

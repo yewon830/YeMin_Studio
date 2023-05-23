@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 import json
+from movies.models import Movie
 # Create your views here.
 
 # 회원가입
@@ -90,3 +91,27 @@ def profile_update(request):
     user.save()
     
     return Response({'success' : '프로필 수정에 성공하였습니다'})
+
+# 내 컨텐츠
+@api_view(['GET'])
+@login_required
+def mycontents(request):
+    user = request.user
+    
+    # user의 like_movie 데이터 가져오기
+    like_movie_data = Movie.objects.filter(like_users=user)
+    
+    # user의 wishlist_movie 데이터 가져오기
+    wishlist_movie_data = Movie.objects.filter(wishlist=user)
+    
+    # 좋아요한 영화 데이터
+    like_movies = list(like_movie_data.values())
+    
+    # 위시리스트 영화 데이터
+    wish_movies = list(wishlist_movie_data.values())
+    
+    # Response를 사용하여 데이터 반환
+    return Response({
+        'like_movies': like_movies,
+        'wish_movies': wish_movies
+    })

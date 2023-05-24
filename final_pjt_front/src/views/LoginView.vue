@@ -4,10 +4,10 @@
     <div class="login-box">
         <form @submit.prevent="login">
             <div>
-                <label>닉네임</label>
+                <label>아이디</label>
             </div>
             <div class="input-box">
-                <input name="email" type="text" v-model="username" autocapitalize="none" spellcheck="false">
+                <input name="username" type="text" v-model="username" autocapitalize="none" spellcheck="false">
             </div>
             <div>
                 <label>비밀번호</label>
@@ -36,17 +36,22 @@ export default {
             const password = this.password
 
             const payload = {
-                username,password
+                username, password
             }
-            this.$store.dispatch('login',payload)
+            this.$store.dispatch('login', payload)
+              .then(response => {
+                console.log(response)
+              })
+              .catch(error => {
+                console.log(error)
+              })
         }
     }
-    
 }
 </script>
 
 <style>
-.login-page{
+.login-page {
     padding-top: 2rem;
     padding-bottom: 2rem;
     width: 100%;
@@ -58,7 +63,7 @@ export default {
     flex-direction: column;
     color: rgb(61, 61, 61);
 }
-.login-box{
+.login-box {
     background-color: white;
     padding: 2rem;
     border: 1px solid lightgray;
@@ -67,7 +72,7 @@ export default {
     text-align: start;
 }
 
-.input-box{
+.input-box {
     display: flex;
     margin-top: 0.5rem;
     padding-bottom: 0.5rem;

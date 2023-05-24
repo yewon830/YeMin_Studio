@@ -14,30 +14,55 @@ from operator import and_
 @api_view(['GET'])
 def movie_home(request, page_number):
     sort_option = request.GET.get('sort')  # 정렬 옵션을 요청에서 가져옴
+    genre_filter = request.GET.get('genre')  # 장르 필터를 요청에서 가져옴
+    min_rating = request.GET.get('min_rating')  # 최소 평점 필터를 요청에서 가져옴
+    max_rating = request.GET.get('max_rating')  # 최대 평점 필터를 요청에서 가져옴
+    min_year = request.GET.get('min_year')  # 최소 개봉년도 필터를 요청에서 가져옴
+    max_year = request.GET.get('max_year')  # 최대 개봉년도 필터를 요청에서 가져옴
 
-    movie_list = list(Movie.objects.all())
+    movie_list = Movie.objects.all()
 
+    # 장르 필터 적용
+    if genre_filter:
+        movie_list = movie_list.filter(genre__name=genre_filter)
+
+    # 평점 필터 적용
+    if min_rating:
+        movie_list = movie_list.filter(vote_average__gte=float(min_rating))
+    if max_rating:
+        movie_list = movie_list.filter(vote_average__lte=float(max_rating))
+
+    # 개봉년도 필터 적용
+    if min_year:
+        movie_list = movie_list.filter(release_date__year__gte=int(min_year))
+    if max_year:
+        movie_list = movie_list.filter(release_date__year__lte=int(max_year))
+
+    # 정렬 옵션에 따라 정렬
     if sort_option == 'popularity':  # 인기순으로 정렬
-        print('1')
-        movie_list.sort(key=lambda movie: movie.popularity, reverse=True)
+        movie_list = movie_list.order_by('-popularity')
     elif sort_option == 'vote_average':  # 평점순으로 정렬
-        print('2')
-        movie_list.sort(key=lambda movie: movie.vote_average, reverse=True)
+        movie_list = movie_list.order_by('-vote_average')
     elif sort_option == 'title':  # 가나다 순으로 정렬
-        print('3')
-        movie_list.sort(key=lambda movie: movie.title)
+        movie_list = movie_list.order_by('title')
 
     paginator = Paginator(movie_list, 30)
 
     page_obj = paginator.get_page(page_number)
     movie_data = MovieSerializer(page_obj, many=True)
 
-    # 현재 정렬 기준을 응답에 포함하여 전달
+    # 현재 정렬 기준과 필터 정보를 응답에 포함하여 전달
     response_data = {
         'movies': movie_data.data,
-        'sort_option': sort_option
+        'sort_option': sort_option,
+        'genre_filter': genre_filter,
+        'min_rating': min_rating,
+        'max_rating': max_rating,
+        'min_year': min_year,
+        'max_year': max_year,
     }
     return Response(response_data)
+
 
 @api_view(['GET'])
 def movie_detail(request, movie_pk):

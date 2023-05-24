@@ -5,10 +5,16 @@
         <div>회원가입</div>
         <form @submit.prevent="signUp" style="text-align: start;">
             <div>
+                <label>아이디 </label>
+            </div>
+            <div class="input-box">
+                <input type="text" v-model="username" placeholder="아이디를 입력해주세요">
+            </div>
+            <div>
                 <label>닉네임 </label>
             </div>
             <div class="input-box">
-                <input type="text" v-model="username" placeholder="닉네임을 입력해주세요">
+                <input type="text" v-model="nickname" placeholder="닉네임을 입력해주세요">
             </div>
 
             <div>
@@ -45,6 +51,7 @@ export default {
     data(){
         return {
             username: null,
+            nickname: null,
             email: null,
             password1: null,
             password2: null,
@@ -53,12 +60,13 @@ export default {
     methods: {
         signUp(){
             const username = this.username
+            const nickname = this.nickname
             const email = this.email
             const password1 = this.password1
             const password2 = this.password2
 
             const payload = {
-                username, email, password1, password2
+                username, nickname, email, password1, password2
             }
             this.$store.dispatch('signUp',payload)
         }

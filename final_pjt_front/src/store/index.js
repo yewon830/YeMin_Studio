@@ -113,6 +113,7 @@ export default new Vuex.Store({
 
     signUp(context, payload) {
       const username = payload.username
+      const nickname = payload.nickname
       const email = payload.email
       const password1 = payload.password1
       const password2 = payload.password2
@@ -120,7 +121,7 @@ export default new Vuex.Store({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
         data: {
-          username, email, password1, password2
+          username, nickname, email, password1, password2
         }
       })
         .then((response) => {
@@ -156,7 +157,7 @@ export default new Vuex.Store({
         })
     },
     updateProfile(context,payload){
-      const username = payload.username
+      const nickname = payload.nickname
       const email = payload.email
       const password1 = payload.password1
       const password2 = payload.password2
@@ -164,14 +165,14 @@ export default new Vuex.Store({
         method: 'put',
         url: `${API_URL}/accounts/profile/update/`,
         data : {
-          username,email,password1,password2
+          nickname,email,password1,password2
         },
         headers:{
           Authorization : `Token ${this.state.token}`
         }
       })
       .then((response)=>{
-        // console.log(response)
+        console.log(response)
         context.commit('UPDATE_PROFILE',response.data)
       })
       .catch((err)=>{

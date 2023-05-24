@@ -15,26 +15,30 @@ import random
 # Create your views here.
 
 # 회원가입
-@api_view(['POST']) 
+@api_view(['POST'])
 def sign_up(request):
     username = request.data.get('username')
+    nickname = request.data.get('nickname')
     email = request.data.get('email')
     password1 = request.data.get('password1')
     password2 = request.data.get('password2')
-    
+
     if password1 != password2:
         return Response({'error': '비밀번호 확인에 실패하였습니다'}, status=400)
-    
+
     try:
         user = User.objects.create_user(username=username, email=email, password=password1)
+        user.nickname = nickname
+        user.save()
         token, _ = Token.objects.get_or_create(user=user)
-        
+
         return Response({
             'success': '회원가입에 성공하였습니다',
             'token': token.key,
         })
     except Exception as e:
         return Response({'error': str(e)}, status=400)
+
 
 # 로그인
 @api_view(['POST'])
@@ -49,8 +53,9 @@ def login_view(request):
         token, _ = Token.objects.get_or_create(user=user)
         
         return Response({
-            'success': '로그인에 성공하였습니다',
+            'success': True,
             'token': token.key,
+            'username': user.username
         })
     else:
         return Response({'error': '다시 시도해주십시오'}, status=400)
@@ -73,7 +78,6 @@ def profile(request, username):
     
     data = {
         'username': user.username,
-        'profile_image': user.profile_image.url if user.profile_image else None,
         'followings_count': followings_count,
         'followers_count': followers_count,
         'reviews': [review.text for review in reviews],
@@ -82,17 +86,15 @@ def profile(request, username):
     return Response(data)
 
 # 회원 정보 수정
-@api_view(['POST'])
-@login_required
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def profile_update(request):
-    username = request.data.get('username')
-    profile_image = request.data.get('profile_image')
+    nickname = request.data.get('nickname')
     password = request.data.get('password')
     
     user = request.user
-    user.username = username
-    user.profile_image = profile_image
-    user.password = password
+    user.nickname = nickname
+    user.set_password(password)
     user.save()
     
     return Response({'success' : '프로필 수정에 성공하였습니다'})
@@ -121,18 +123,7 @@ def mycontents(request):
         'wish_movies': wish_movies
     })
 
-# 팔로우 팔로잉
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def follow(request, user_pk):
-    person = get_object_or_404(User, pk=user_pk)
-    if person != request.user:
-        if person.followers.filter(pk=request.user.pk).exists():
-            person.followers.remove(request.user)
-        else:
-            person.followers.add(request.user)
-    return Response(status=204)
-
+# 유저 추천 창
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def commend_movies(request):
@@ -165,3 +156,16 @@ def commend_movies(request):
             'movies': []
         }
     return Response(data)
+
+
+# 팔로우 팔로잉
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow(request, user_pk):
+    person = get_object_or_404(User, pk=user_pk)
+    if person != request.user:
+        if person.followers.filter(pk=request.user.pk).exists():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+    return Response(status=204)

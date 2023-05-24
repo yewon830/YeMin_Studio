@@ -3,7 +3,7 @@
     <h1>회원정보 변경</h1>
     <form @submit.prevent="updateProfile">
         <p>닉네임</p>
-        <input type="text" v-model="username">
+        <input type="text" v-model="nickname">
         <p>이메일</p>
         <input type="email" v-model="email">
         <p>비밀번호</p>
@@ -23,7 +23,7 @@ export default {
         password1: null,
         password2: null,
         email: null,
-        username: null,
+        nickname: null,
       }
     },
     // computed : {
@@ -39,7 +39,7 @@ export default {
             this.$store.dispatch('getUserProfile')
             const userProfile = this.$store.state.userProfile
             this.email = userProfile.email
-            this.username = userProfile.username
+            this.nickname = userProfile.nickname
       },
       updateProfile(){
         if(this.password1!= this.password2){
@@ -54,18 +54,24 @@ export default {
           alert('패스워드 확인을 해주세요.')
           return
         }
-        if(!this.username){
+        if(!this.nickname){
           alert('닉네임을 입력해주세요.')
           return
         }
-        const username = this.username
+        const nickname = this.nickname
         const password1 = this.password1
         const password2 = this.password2
         const email = this.email
         const payload = {
-          username, email, password1,password2
+          nickname, email, password1,password2
         }
         this.$store.dispatch('updateProfile', payload)
+          .then(() => {
+            this.$router.push({ name : 'ProfileView' })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
     }
 }

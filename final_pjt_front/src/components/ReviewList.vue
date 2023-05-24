@@ -9,6 +9,18 @@
             <div v-if="isBtnClicked(review.id)">
                 <form @submit.prevent="updateReview(review.id)">
                     <input type="text" v-model="content" style="width: 500px; height: 80px;">
+                                <div class="star-rating">
+                    <input v-model="rank" type="radio" id="05-stars" name="rating" value="5" />
+                    <label  for="05-stars" class="star">&#9733;</label>
+                    <input v-model="rank" type="radio" id="04-stars" name="rating" value="4" />
+                    <label for="04-stars" class="star">&#9733;</label>
+                    <input v-model="rank" type="radio" id="03-stars" name="rating" value="3" />
+                    <label for="03-stars" class="star">&#9733;</label>
+                    <input v-model="rank" type="radio" id="02-stars" name="rating" value="2" />
+                    <label for="02-stars" class="star">&#9733;</label>
+                    <input v-model="rank" type="radio" id="01-star" name="rating" value="1" />
+                    <label for="01-star" class="star">&#9733;</label>
+                    </div>
                     <button>작성</button>
                 </form>
             </div>
@@ -28,6 +40,7 @@ export default {
         return{
             clickedBtn : null,
             content : null,
+            rank : null,
         }
     },
     computed:{
@@ -43,11 +56,15 @@ export default {
     },
     methods:{
         getMovieReviews(){
-            const movieId = movieId
+            const movieId = this.movieId
             this.$store.dispatch('getReviewList', movieId)
         },
         deleteReview(reviewId){
-            this.$store.dispatch('deleteReview', reviewId)
+            const movieId = this.movieId
+            const payload = {
+                movieId, reviewId
+            }
+            this.$store.dispatch('deleteReview', payload)
         },
         isBtnClicked(reviewId){
             return this.clickedBtn === reviewId
@@ -71,6 +88,7 @@ export default {
         },
         updateReview(reviewId){
             const content = this.content
+            const rank = this.rank
             axios({
                 method: 'put',
                 url: `http://127.0.0.1:8000/movies/reviews/${reviewId}/`,
@@ -78,13 +96,14 @@ export default {
                     Authorization: `Token ${this.$store.state.token}`
                 },
                 data: {
-                    content
+                    content, rank
                 }
             })
             .then(()=>{
-                const movieId = movieId
+                const movieId = this.movieId
                 this.$store.dispatch('getReviewList', movieId)
                 this.content = null
+                this.rank = null
             })
             .catch((err)=>{
                 console.log(err)
@@ -96,5 +115,32 @@ export default {
 </script>
 
 <style>
+.star-rating {
+  border:solid 1px #ccc;
+  display:flex;
+  flex-direction: row-reverse;
+  font-size:1.5em;
+  justify-content:space-around;
+  padding:0 .2em;
+  text-align:center;
+  width:5em;
+}
 
+.star-rating input {
+  display:none;
+}
+
+.star-rating label {
+  color:#ccc;
+  cursor:pointer;
+}
+
+.star-rating :checked ~ label {
+  color:#f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color:#fc0;
+}
 </style>

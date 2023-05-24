@@ -83,7 +83,6 @@
   </template>
   
   <script>
-  import axios from 'axios'
   import DetailMovieView from '@/views/DetailMovieView'
   
   export default {
@@ -99,23 +98,29 @@
       }
     },
     computed: {
+      myLikeMovieList(){
+        return this.$store.getters.computedLikeMovieList
+      },
+      myWishMovieList(){
+        return this.$store.getters.computedWishMovieList
+      },
       groupedLikeMovieList() {
-        if (!this.LikeMovieList) return []
+        if (!this.myLikeMovieList) return []
   
         const groups = []
         const groupSize = 5
-        const totalMovies = this.LikeMovieList.length
+        const totalMovies = this.myLikeMovieList.length
         for (let i = 0; i < totalMovies; i += groupSize) {
-          groups.push(this.LikeMovieList.slice(i, i + groupSize))
+          groups.push(this.myLikeMovieList.slice(i, i + groupSize))
         }
         return groups
       },
       groupedWishMovieList(){
-        if(!this.WishMovieList) return []
+        if(!this.myWishMovieList) return []
         const groups = []
-        const totalMovies = this.WishMovieList.length
+        const totalMovies = this.myWishMovieList.length
         for (let i=0; i<totalMovies; i+=5){
-            groups.push(this.WishMovieList.slice(i,i+5))
+            groups.push(this.myWishMovieList.slice(i,i+5))
         }
         return groups
       }
@@ -125,20 +130,7 @@
     },
     methods: {
       getUserMovieList() {
-        axios({
-          url: 'https://api.themoviedb.org/3/movie/top_rated?api_key=cdb84e32fe9892b6b1fad1b2dceb89d0&language=ko-KR&page=1',
-        })
-          .then((response) => {
-            console.log(response)
-            this.LikeMovieList = response.data.results
-            this.WishMovieList = response.data.results
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-          .finally(()=>{
-            this.isLoading = false
-          })
+        this.$store.dispatch('myContentList')
       },
       openModal(movieId){
         this.$store.dispatch('getDetailMovie', movieId)

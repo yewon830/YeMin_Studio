@@ -19,7 +19,9 @@ export default new Vuex.Store({
     username: null,
     userProfile : {},
     currentUser: {},
-    personalMovieList : {},
+    myLikeMovieList : [],
+    myWishMovieList : [],
+    
     //
     articleList : [],
     commentList : [],
@@ -51,7 +53,14 @@ export default new Vuex.Store({
     },
     computedLikeMovie(state){
       return state.likeMovie
+    },
+    computedLikeMovieList(state){
+      return state.myLikeMovieList
+    },
+    computedWishMovieList(state){
+      return state.myWishMovieList
     }
+
 
   },
   mutations: {
@@ -92,6 +101,12 @@ export default new Vuex.Store({
     },
     GET_DETAIL_MOVIE(state,movie){
       state.detailMovie = movie
+    },
+    GET_MY_Like_MOVIELIST(state,movies){
+      state.myLikeMovieList = movies
+    },
+    GET_MY_WISH_MOVIELIST(state,movies){
+      state.myWishMovieList = movies
     }
   },
   actions: {
@@ -257,7 +272,9 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    deleteReview(context,reviewId){
+    deleteReview(context,payload){
+      const reviewId = payload.reviewId
+      const movieId = payload.movieId
       axios({
         method: 'delete',
         url: `${API_URL}/movies/reviews/${reviewId}/`,
@@ -266,7 +283,7 @@ export default new Vuex.Store({
         }
       })
       .then(()=>{
-        context.dispatch('getReviewList')
+        context.dispatch('getReviewList', movieId)
       })
       .catch((err)=>{
         console.log(err)
@@ -283,6 +300,22 @@ export default new Vuex.Store({
       .then((response)=>{
         console.log(response.data)
         context.commit('GET_DETAIL_MOVIE', response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    myContentList(context){
+      axios({
+        url:`${API_URL}/accounts/mycontents/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then((response)=>{
+        // console.log(response.data.like_movies)
+        context.commit('GET_MY_Like_MOVIELIST', response.data.like_movies)
+        context.commit('GET_MY_WISH_MOVIELIST', response.data.wish_movies)
       })
       .catch((err)=>{
         console.log(err)

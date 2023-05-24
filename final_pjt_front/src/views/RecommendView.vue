@@ -8,6 +8,7 @@
 export default {
     name: 'RecommendView'
 }
+
 </script>
 
 <style>

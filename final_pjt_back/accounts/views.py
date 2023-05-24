@@ -8,6 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 import json
 from movies.models import Movie
+from movies.serializers import MovieDetailSerializer, MovieSerializer
+from django.db.models import Count
+from random import sample
+import random
 # Create your views here.
 
 # 회원가입
@@ -128,3 +132,36 @@ def follow(request, user_pk):
         else:
             person.followers.add(request.user)
     return Response(status=204)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def commend_movies(request):
+    user = request.user
+    
+    liked_movies = user.likes.all().values_list('movie', flat=True)
+    liked_genres = Movie.objects.filter(id__in=liked_movies).values_list('genre', flat=True)
+    genre_counts = Movie.objects.exclude(id__in=liked_movies).exclude(genre__isnull=True).values('genre').annotate(count=Count('genre')).order_by('-count')
+
+    if genre_counts.exists():
+        top_genre = genre_counts[0]['genre']
+        movies = Movie.objects.filter(genre=top_genre).exclude(id__in=liked_movies).order_by('-likes')
+
+        if movies.count() < 5:
+            next_genre_movies = Movie.objects.filter(genre__in=liked_genres).exclude(id__in=liked_movies).order_by('-likes')
+            movies = movies.union(next_genre_movies)[:5]
+            
+        movies = random.sample(list(movies), min(5, movies.count()))
+
+        movie_list = []
+        for movie in movies:
+            movie_data = MovieSerializer(movie).data
+            movie_list.append(movie_data)
+
+        data = {
+            'movies': movie_list
+        }
+    else:
+        data = {
+            'movies': []
+        }
+    return Response(data)

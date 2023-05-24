@@ -105,15 +105,16 @@ def get_review_list(request, movie_id):
 
 # 리뷰 작성
 @api_view(['POST'])
-def create_review(request):
+def create_review(request,movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(user=request.user)
+        serializer.save(user=request.user, movie=movie)
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
 # 리뷰 수정, 삭제
-@api_view(['PUT', 'DELETE'])
+@api_view(['PUT', 'DELETE','GET'])
 def update_or_delete_review(request, review_id):
     try:
         review = Review.objects.get(id=review_id)
@@ -124,6 +125,11 @@ def update_or_delete_review(request, review_id):
     if review.user != request.user:
         return Response(status=403)
 
+    if request.method == "GET":
+        
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data)
+        
     if request.method == 'PUT':
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():

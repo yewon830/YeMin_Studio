@@ -9,11 +9,12 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
-    
+    username = serializers.StringRelatedField(source="user.username", read_only=True)
     class Meta:
         
         model = Review
         fields = '__all__'
+        read_only_fields = ('user','movie',)
         
 class DirectorNameSerializer(serializers.ModelSerializer):
     

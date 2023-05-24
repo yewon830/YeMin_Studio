@@ -43,7 +43,7 @@
         리뷰 보기
       </button>
       <div v-if="isBtnClicked">
-        <ReviewView/>
+        <ReviewView :movieId="movie.id"/>
       </div>
     </div>
   </div>
@@ -52,12 +52,12 @@
 <script>
 // import axios from 'axios'
 import ReviewView from '@/components/ReviewView'
-// import MovieDetailVideo from '@/components/MovieDetailVideo';
+
 
 export default {
   name: 'DetailMovieView',
   components: {
-    // MovieDetailVideo,
+
     ReviewView
   },
   computed:{
@@ -87,10 +87,12 @@ export default {
     likeMovie(){
     this.$store.dispatch('likeMovie', this.movie.id)
     this.getHeartColor()
+    this.$store.dispatch('myContentList')
     },
     wishMovie(){
         this.$store.dispatch('wishMovie', this.movie.id)
         this.getWishColor()
+        this.$store.dispatch('myContentList')
     },
     getHeartColor() {
       // 해당 영화의 'heartColor' 값을 반환

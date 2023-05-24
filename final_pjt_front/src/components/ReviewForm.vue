@@ -35,6 +35,9 @@ export default {
                 },
                 data: {content}
             })
+            .then(()=>{
+                this.$store.dispatch()
+            })
             .catch((err)=>{
                 console.log(err)
             })

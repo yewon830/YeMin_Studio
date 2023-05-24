@@ -3,6 +3,8 @@
     <form @submit.prevent="commentCreate">
         <input type="text" style="width: 500px; height: 80px;" v-model="content">
         <button>작성</button>
+
+
     </form>
   </div>
 </template>
@@ -13,7 +15,8 @@ export default {
     name:'CommentForm',
     data(){
         return{
-            content: null
+            content: null,
+
         }
     },
     methods: {

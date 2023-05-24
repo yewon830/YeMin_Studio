@@ -9,7 +9,7 @@
                 <div v-for="(group, index) in groupedLikeMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
                   <div class="row">
                     <div v-for="movie in group" :key="movie.id" class="col-md-2">
-                      <a href="#" class="thumbnail">
+                      <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
                         <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                 <div v-for="(group, index) in groupedWishMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
                   <div class="row">
                     <div v-for="movie in group" :key="movie.id" class="col-md-2">
-                      <a href="#" class="thumbnail">
+                      <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
                         <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
                       </a>
                     </div>
@@ -56,18 +56,46 @@
           </div>
         </div>
       </div>
+      
+
+          <!-- Modal -->
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <DetailMovieView />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
     </div>
   </template>
   
   <script>
   import axios from 'axios'
+  import DetailMovieView from '@/views/DetailMovieView'
   
   export default {
     name: 'MyContent',
+    components:{
+      DetailMovieView
+    },
     data() {
       return {
         LikeMovieList: null,
         WishMovieList: null,
+        isLoading: true,
       }
     },
     computed: {
@@ -108,7 +136,13 @@
           .catch((err) => {
             console.log(err)
           })
+          .finally(()=>{
+            this.isLoading = false
+          })
       },
+      openModal(movieId){
+        this.$store.dispatch('getDetailMovie', movieId)
+      }
     },
   }
   </script>

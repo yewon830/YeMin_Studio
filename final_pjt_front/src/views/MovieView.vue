@@ -9,7 +9,28 @@
     <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4" >
       <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" @openModal="openModal" />
     </div>
-    <DetailMovieView :movie="selectedMovieId" v-if="showModal" @close-modal="closeModal" />
+
+    <!-- Modal -->
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <DetailMovieView />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     
     <div class="d-flex justify-content-center">
       <a class="page-button" :href="getPageUrl(1)+sortOption">처음으로</a>
@@ -39,7 +60,8 @@ export default {
       movies: null,
       totalPage: 34,
       showModal: false,
-      selectedMovie: null,
+      selectedMovieId: null,
+      seletedMovie: {},
       sortOption: this.$route.query.sort || 'movie_id' // 기본 정렬 옵션 설정
     }
   },
@@ -65,7 +87,7 @@ export default {
       handler() {
         this.getPerPageMovies();
       },
-      immediate: true // 초기 로드시에도 호출되도록 immediate 옵션을 추가합니다.
+      immediate: true // 초기 로드시에도 호출되도록 immediate 옵션을 추가
     }
   },
   methods: {
@@ -98,13 +120,13 @@ export default {
       }
     },
     openModal(movieId){
-      // console.log(movieId)
-      this.ShowModal = true
+      // console.log(movieId)\
       this.selectedMovieId = movieId
-
+      this.showModal = true
+      
     },
     closeModal(){
-      this.ShowModal = false
+      this.showModal = false
     },
     changeSortOption(option) {
     if (this.sortOption !== option) {

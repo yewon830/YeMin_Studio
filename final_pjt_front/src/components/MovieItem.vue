@@ -1,6 +1,6 @@
 <template>
-  <div class="movie-item" @click="openModal(movie.id)">
-    <a :href="`http://localhost:8080/movies/detail/${movie.id}`">
+  <div  data-bs-toggle="modal" data-bs-target="#exampleModal"  class="movie-item" @click="openModal(movie.id)">
+    <a>
       <div class="movie-image-container">
         <img :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`" class="movie-image" :alt="`${movie.title}`">
         <p class="title">{{ movie.title }}</p> 
@@ -16,16 +16,13 @@
 <script>
 export default {
     name: 'MovieItem',
-    // created(){
-    //   this.test() 
-    // },
-
     props: {
         movie : Object
     },
     methods: {
       openModal(movieId){
-        this.$emit('openModal',movieId)
+        // this.$emit('openModal',movieId)
+        this.$store.dispatch('getDetailMovie',movieId)
       },
       // test(){
       //   console.log(this.movie)

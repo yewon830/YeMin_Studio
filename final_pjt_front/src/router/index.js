@@ -6,7 +6,8 @@ import TestView from '@/views/test'
 import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 import SearchMovieView from '@/views/SearchMovieView'
-import DetailMovieView from '@/views/DetailMovieView'
+// import DetailMovieView from '@/views/DetailMovieView'
+import RecommendView from '@/views/RecommendView'
 
 import UpdateProfileView from '@/views/UpdateProfileView'
 import MyContentView from '@/views/MyContentView'
@@ -22,6 +23,11 @@ const routes = [
     path: '/movies/:page',
     name: 'MovieView',
     component: MovieView
+  },
+  {
+    path: '/recommend',
+    name: 'RecommendView',
+    component: RecommendView
   },
   {
     path: '/articles/:articleId/update',
@@ -53,13 +59,13 @@ const routes = [
     name: 'ProfileView',
     component: ProfileView
   },
+  // {
+  //   path: '/movies/detail/:movieId',
+  //   name: 'DetailMovieView',
+  //   component: DetailMovieView
+  // },
   {
-    path: '/movies/detail/:movieId',
-    name: 'DetailMovieView',
-    component: DetailMovieView
-  },
-  {
-    path: '/movies/mycontent/',
+    path: '/mymovies/',
     name: 'MyContentView',
     component: MyContentView
   },

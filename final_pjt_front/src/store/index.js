@@ -14,8 +14,8 @@ export default new Vuex.Store({
   state: {
     movies : [],
     token : null,
-    likeMovie: [],
-    wishMovie:[],
+    likeMovie: null,
+    wishMovie:null,
     username: null,
     userProfile : {},
     currentUser: {},
@@ -23,6 +23,8 @@ export default new Vuex.Store({
     //
     articleList : [],
     commentList : [],
+    reviewList : [],
+    detailMovie : {},
 
   },
   getters: {
@@ -37,7 +39,20 @@ export default new Vuex.Store({
     },
     computedCommentList(state){
       return state.commentList
+    },
+    computedReviewList(state){
+      return state.reviewList
+    },
+    computedDetailMovie(state){
+      return state.detailMovie
+    },
+    computedWishMovie(state){
+      return state.wishMovie
+    },
+    computedLikeMovie(state){
+      return state.likeMovie
     }
+
   },
   mutations: {
     SAVE_TOKEN(state, token){
@@ -45,10 +60,10 @@ export default new Vuex.Store({
       router.push({name:'MovieView'})
     },
     LIKE_MOVIE(state, movie){
-      state.likeMovie = movie
+      state.likeMovie = (movie)
     },
     WISH_MOVIE(state,movie){
-      state.wishMovie = movie
+      state.wishMovie = (movie)
     },
     SAVE_USERNAME(state,username){
       state.username = username
@@ -71,6 +86,12 @@ export default new Vuex.Store({
     },
     GET_COMMENT_LIST(state,comments){
       state.commentList = comments
+    },
+    GET_REVIEW_LIST(state,reviews){
+      state.reviewList = reviews
+    },
+    GET_DETAIL_MOVIE(state,movie){
+      state.detailMovie = movie
     }
   },
   actions: {
@@ -135,7 +156,7 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
-        console.log(response)
+        // console.log(response)
         context.commit('UPDATE_PROFILE',response.data)
       })
       .catch((err)=>{
@@ -152,7 +173,8 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
-        context.commit('LIKE_MOVIE', response.data)
+        // console.log(response.data)
+        context.commit('LIKE_MOVIE', response.data.liked)
       })
       .catch((err)=>{
         console.log(err)
@@ -168,7 +190,8 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
-        context.commit('WISH_MOVIE', response.data)
+        // console.log(response.data.wished)
+        context.commit('WISH_MOVIE', response.data.wished)
       })
       .catch((err)=>{
         console.log(err)
@@ -215,6 +238,51 @@ export default new Vuex.Store({
       })
       .then((response)=>{
         context.commit('GET_USER_MOVIE_LIST', response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    getReviewList(context,movieId){
+      axios({
+        url: `${API_URL}/movies/${movieId}/reviews/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then((response)=>{
+        context.commit('GET_REVIEW_LIST', response.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    deleteReview(context,reviewId){
+      axios({
+        method: 'delete',
+        url: `${API_URL}/movies/reviews/${reviewId}/`,
+        headers : {
+          Authorization : `Token ${this.state.token}`
+        }
+      })
+      .then(()=>{
+        context.dispatch('getReviewList')
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    getDetailMovie(context,movieId){
+      axios({
+        url: `http://127.0.0.1:8000/movies/d=${movieId}/`,
+        headers: {
+                    Authorization: `Token ${this.state.token}`
+                },
+
+      })
+      .then((response)=>{
+        console.log(response.data)
+        context.commit('GET_DETAIL_MOVIE', response.data)
       })
       .catch((err)=>{
         console.log(err)
@@ -271,7 +339,7 @@ export default new Vuex.Store({
     deleteComment(context,commentId){
       axios({
         method: 'delete',
-        url: `${API_URL}/articles/comments/${commentId}`,
+        url: `${API_URL}/articles/comments/${commentId}/`,
         headers : {
           Authorization : `Token ${this.state.token}`
         }

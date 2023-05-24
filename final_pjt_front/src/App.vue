@@ -9,6 +9,7 @@
           <div v-if="isLogin">
             <router-link :to="{name:'MyContentView'}">내 컨텐츠</router-link>
             <router-link :to="{name:'ArticleView'}">커뮤니티</router-link>
+            <router-link :to="{name:'RecommendView'}">영화 추천</router-link>
           </div>
 
 

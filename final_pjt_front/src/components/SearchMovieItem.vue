@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a :href="`http://localhost:8080/movies/detail/${movie.id}`">
+  <div data-bs-toggle="modal" data-bs-target="#exampleModal"  class="movie-item" @click="openModal(movie.id)">
+    <a >
         <img :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`" style="height: 285px; width: 200px" class="rounded" :alt="`${movie.title}`">
         <p>{{movie.title}}</p>
     </a>
@@ -12,6 +12,11 @@ export default {
     name: 'SearchMovieItem',
     props: {
         movie: Object
+    },
+    methods:{
+      openModal(movieId){
+      this.$store.dispatch('getDetailMovie', movieId)
+    }
     }
 }
 </script>

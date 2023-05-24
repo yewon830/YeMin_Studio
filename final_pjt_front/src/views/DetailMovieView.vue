@@ -1,103 +1,152 @@
 <template>
-  <div class="modal-container">
-    <div class="overlay" v-if="showModal" @click.self="closeModal"></div>
-    <div class="modal-container" v-if="showModal">
-      <button class="modal-close-button" @click="closeModal">닫기</button>
-      <MovieDetailVideo :movie="movie" />
+  <div class="modal-container" style="color: black;">
+    <div >
+      <div>
+        <iframe width="100%" height="355" :src="'https://www.youtube.com/embed/' + movie.video_key +'?autoplay=1'" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div>
+        <h5>{{ movie.title }}</h5>
+      </div>
+      <div @click="likeMovie">
+        <font-awesome-icon :color="getHeartColor(movie.id)" :icon="['fas', 'heart']" size="lg" />
+      </div>
+      <div @click="wishMovie">
+        <font-awesome-icon :color="getWishColor(movie.id)" :icon="['fasl', 'folder-open']" size="lg" />
+      </div>
+      <div style="font-size: 0.875rem;">
+        <div>
+          <p>{{ movie.overview }}</p>
+          <input type="checkbox" class="more-btn">
+        </div>
+      </div>
+      <div>
+        <div>
+          <h6>감독</h6>
+          <span>{{ movie.director.name }}</span>
+        </div>
+      </div>
+      <div>
+        <h6>배우</h6>
+        <div>
+          <div v-for="actor in movie.actors" :key="actor.name">
+            <span>{{ actor.name }}</span>
+          </div>
+          <div>
+            <h6>개봉날짜</h6>
+            <span>{{ movie.release_date }}</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <button @click="showReview">리뷰 보기</button>
-    <div v-if="isBtnClicked">
-      <!-- 리뷰 보여줘야 함 -->
-      <ReviewView :movie-id="movie.id"/>
+    <div>
+      <button @click="showReview" class="btn btn-primary">
+        리뷰 보기
+      </button>
+      <div v-if="isBtnClicked">
+        <ReviewView/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import ReviewView from '@/components/ReviewView'
-import MovieDetailVideo from '@/components/MovieDetailVideo';
+// import MovieDetailVideo from '@/components/MovieDetailVideo';
 
 export default {
   name: 'DetailMovieView',
-  created() {
-    this.getDetailMovie()
-    this.$emit('open-modal', this.$route.params.movieId)
-  },
   components: {
-    MovieDetailVideo,
+    // MovieDetailVideo,
     ReviewView
+  },
+  computed:{
+    movie(){
+      return this.$store.getters.computedDetailMovie
+    },
+    likeMovieData(){
+      return this.$store.getters.computedLikeMovie
+    },
+    wishMovieData(){
+      return this.$store.getters.computedWishMovie
+    }
   },
   data() {
     return {
-      movie: null,
+      // movie: null,
       showModal: true,
       isBtnClicked : false,
+      isHeartClicked: false,
+      isWishClicked: false,
+      heartColor: 'black',
+      wishColor: 'black'
     };
   },
+
   methods: {
-    getDetailMovie() {
-      axios({
-        url: `http://127.0.0.1:8000/movies/d=${this.$route.params.movieId}/`,
-      })
-        .then((response) => {
-          console.log(response.data);
-          this.movie = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    likeMovie(){
+    this.$store.dispatch('likeMovie', this.movie.id)
+    this.getHeartColor()
     },
-    closeModal() {
-      this.showModal = false
-      this.$router.go(-1) // 이전 페이지로 이동
+    wishMovie(){
+        this.$store.dispatch('wishMovie', this.movie.id)
+        this.getWishColor()
+    },
+    getHeartColor() {
+      // 해당 영화의 'heartColor' 값을 반환
+      return this.likeMovieData ? '#0d6efd' : 'black'
+    },
+    getWishColor(){
+      return this.wishMovieData ? '#0d6efd' : 'black'
     },
     showReview(){
       this.isBtnClicked = !this.isBtnClicked
     }
+
   },
 };
 </script>
 
 <style>
-body.modal-open {
-  overflow: hidden;
-}
-.modal-container {
-  position: fixed;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50%;
-  height: 80vh;
-  background-color: rgba(6, 5, 58, 0.932);
-  color: white;
-  border-radius: 8px;
-  padding: 20px;
-  z-index: 9999;
-}
-
-.modal-close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  background-color: #ccc;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.modal-close-button:hover {
-  background-color: #aaa;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 9998;
-}
+  .modal,.overlay{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+  }
+  .movie-info{
+      padding: 40px 40px 40px 40px;
+  }
+  .text-overview{
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 0px;
+  }
+  .more-btn{
+      appearance: none;
+      border: none;
+      padding: 0.5em;
+      cursor: pointer;
+  }
+  .more-btn::before{
+      content: '더보기';
+      color: #4590e3;
+  }
+  .more-btn:checked::before{
+      content: '닫기';
+      color: #4590e3;
+  }
+  .text-overview:has(+ .more-btn:checked){
+      -webkit-line-clamp:unset;
+  }
+  h6{
+      margin-right:10px;
+  }
+  aside{
+      font-size: 0.875rem;
+  }
+  aside span{
+      color: #d4d7db;
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit">
-        <input type="text" placeholder="리뷰를 작성해주세요">
+        <input type="text" placeholder="리뷰를 작성해주세요" style="width: 500px; height: 80px;" v-model="content">
         <button>작성</button>
     </form>
   </div>
@@ -36,7 +36,8 @@ export default {
                 data: {content}
             })
             .then(()=>{
-                this.$store.dispatch()
+                this.$store.dispatch('getReviewList')
+                this.content = null
             })
             .catch((err)=>{
                 console.log(err)

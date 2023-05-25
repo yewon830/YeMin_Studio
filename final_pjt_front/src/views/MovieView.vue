@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-start">영화 목록</h1>
+    <h1 class="text-start" style="margin-top: 30px;">영화 목록</h1>
     <div class="d-flex justify-content-start mt-4">
       <div class="btn-group">
         <button class="sort-button" :class="{ active: sortOption === 'popularity' }" @click="changeSortOption('popularity')">인기순</button>

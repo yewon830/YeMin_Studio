@@ -27,21 +27,24 @@ def article_list(request):
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     
-    # 현재 사용자와 게시글 작성자 비교
-    if article.user != request.user:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
     if request.method == 'GET':
         serializer = ArticleSerializer(article)
         print(serializer.data)
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
+            
+    # 현재 사용자와 게시글 작성자 비교
+        if article.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT) 
     
     elif request.method == 'PUT':
         serializer = ArticleSerializer(article, data=request.data)
+    # 현재 사용자와 게시글 작성자 비교
+        if article.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

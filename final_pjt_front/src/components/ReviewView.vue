@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>리뷰</h1>
+    <hr>
+    <h3 class="text-center">리뷰</h3>
     <ReviewForm :movieId="movieId"/>
     <ReviewList :movieId="movieId"/>
   </div>

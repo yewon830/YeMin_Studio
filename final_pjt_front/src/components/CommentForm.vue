@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h1>히히히</h1>
     <form @submit.prevent="commentCreate">
-        <input type="text" v-model="content">
-        <button>작성</button>
+        <input class="comment-input" type="text" v-model="content">
+        <button class="btn btn-primary">작성</button>
     </form>
   </div>
 </template>
@@ -44,44 +43,14 @@ export default {
 </script>
 
 <style>
-*{
-    margin: 0;
-    padding: 0;
-}
-.rate {
-    float: left;
-    height: 46px;
-    padding: 0 10px;
-}
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-}
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
-}
-.rate:not(:checked) > label:before {
-    content: '★ ';
-}
-.rate > input:checked ~ label {
-    color: #ffc700;    
-}
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
-}
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+
+.comment-input{
+    border: 1px solid lightgrey;
+    width: 820px;
+    height: 102px;
+    margin: 30px;
+    border-radius: 2px;
+
 }
 
 </style>

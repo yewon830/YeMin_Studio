@@ -65,7 +65,6 @@ import ReviewView from '@/components/ReviewView'
 export default {
   name: 'DetailMovieView',
   components: {
-
     ReviewView
   },
   computed:{
@@ -104,10 +103,22 @@ export default {
     },
     getHeartColor() {
       // 해당 영화의 'heartColor' 값을 반환
-      return this.likeMovieData ? '#0d6efd' : 'black'
+      if(this.likeMovieData){
+        const isLike = this.likeMovieData.includes(this.movie.id)
+        return isLike ? '#0d6efd' : 'black'
+      }else{
+        return 'black'
+      }
+
     },
     getWishColor(){
-      return this.wishMovieData ? '#0d6efd' : 'black'
+      if(this.wishMovieData){
+        const isWished = this.wishMovieData.includes(this.movie.id)
+        return isWished ? '#0d6efd' : 'black'
+      }else{
+        return 'black'
+      }
+
     },
     showReview(){
       this.isBtnClicked = !this.isBtnClicked

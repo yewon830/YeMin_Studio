@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 >내가 좋아요 한 컨텐츠</h1>
+    <h1 style="margin-top: 50px;" >내가 좋아요 한 컨텐츠</h1>
     <div class="container d-flex">
       <div class="row" style="margin-right: auto;">
         <div class="col-md-12">
@@ -134,6 +134,7 @@ export default {
     },
     openModal(movieId){
       this.$store.dispatch('getDetailMovie', movieId)
+      this.$store.dispatch('getReviewList', movieId)
     }
   },
 }

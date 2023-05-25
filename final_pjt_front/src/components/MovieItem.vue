@@ -23,6 +23,7 @@ export default {
       openModal(movieId){
         // this.$emit('openModal',movieId)
         this.$store.dispatch('getDetailMovie',movieId)
+        this.$store.dispatch('getReviewList', movieId)
       },
       // test(){
       //   console.log(this.movie)

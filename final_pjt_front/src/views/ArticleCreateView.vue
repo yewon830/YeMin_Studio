@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1>게시글 작성하기</h1>
+    <h1 class="text-start" style="margin-top: 40px;">게시글 작성하기</h1>
     <form @submit.prevent="createArticle">
-        <p>제목</p>
-        <input type="text" v-model.trim="title">
-        <p>내용</p>
-        <textarea id="article-content" cols="30" rows="10" v-model="content"></textarea>
-        <input type="submit">
+        <input type="text" style="width: 800px; height: 80px; font-size: 30px;" v-model.trim="title" placeholder="제목을 입력하세요">
+        <br>
+        <br>
+        <textarea id="article-content" cols="97" rows="30" v-model="content"></textarea>
+        <br>
+        <input class="btn btn-primary" type="submit">
 
     </form>
   </div>

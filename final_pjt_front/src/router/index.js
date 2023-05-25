@@ -2,11 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MovieView from '@/views/MovieView'
 import HomeView from '@/views/HomeView'
-import TestView from '@/views/test'
+
 import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 import SearchMovieView from '@/views/SearchMovieView'
-// import DetailMovieView from '@/views/DetailMovieView'
+
 import RecommendView from '@/views/RecommendView'
 
 import UpdateProfileView from '@/views/UpdateProfileView'
@@ -16,6 +16,7 @@ import ArticleView from '@/views/ArticleView'
 import ArticleDetailView from '@/views/ArticleDetailView'
 import ArticleCreateView from '@/views/ArticleCreateView'
 import ArticleUpdateView from '@/views/ArticleUpdateView'
+import NotFound404View from '@/views/NotFound404View'
 Vue.use(VueRouter)
 
 const routes = [
@@ -59,20 +60,10 @@ const routes = [
     name: 'ProfileView',
     component: ProfileView
   },
-  // {
-  //   path: '/movies/detail/:movieId',
-  //   name: 'DetailMovieView',
-  //   component: DetailMovieView
-  // },
   {
     path: '/mymovies/',
     name: 'MyContentView',
     component: MyContentView
-  },
-  {
-    path: '/test',
-    name: 'TestView',
-    component: TestView
   },
   {
     path: '/',
@@ -94,14 +85,15 @@ const routes = [
     name: 'SearchMovieView',
     component: SearchMovieView
   },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  // }
+  {
+    path: '/errors/404NotFound',
+    name: 'NotFound404View',
+    component: NotFound404View
+  },
+  {
+    path: '*',
+    redirect: '/errors/404NotFound'
+  }
 ]
 
 const router = new VueRouter({

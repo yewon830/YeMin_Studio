@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div >
       <form @submit.prevent="onSubmit">
-          <input type="text" placeholder="리뷰를 작성해주세요" v-model="content">
-              <div class="star-rating">
+        <div>
+            <input class="review-form" style="width: 500px; height: 60px; margin-top: 10px; margin-right: 10px;" type="text" placeholder="리뷰를 작성해주세요" v-model="content">
+            <div class="star-rating" style="margin-top: 10px;">
               <input v-model="rank" type="radio" id="5-stars" name="rating" value="5" />
               <label  for="5-stars" class="star">&#9733;</label>
               <input v-model="rank" type="radio" id="4-stars" name="rating" value="4" />
@@ -13,8 +14,10 @@
               <label for="2-stars" class="star">&#9733;</label>
               <input v-model="rank" type="radio" id="1-star" name="rating" value="1" />
               <label for="1-star" class="star">&#9733;</label>
-              </div>
-          <button>작성</button>
+            </div>
+          <button class="btn btn-primary m-3" style="height: 40px" >작성</button>
+        </div>
+          
       </form>
     </div>
   </template>
@@ -65,6 +68,12 @@
   </script>
   
   <style>
+    .review-form{
+        border: 1px solid lightgray;
+
+
+    }
+
   .star-rating {
     border:solid 1px #ccc;
     display:flex;
@@ -74,10 +83,13 @@
     padding:0 .2em;
     text-align:center;
     width:5em;
+    height: 60px;
+
   }
   
   .star-rating input {
     display:none;
+
   }
   
   .star-rating label {

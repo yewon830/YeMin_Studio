@@ -4,8 +4,7 @@
       <div class="container-fluid nav-div">
           <router-link :to="{name:'HomeView'}" style="color: #3395f4;">YeMin TV</router-link>
 
-          <router-link :to="{name:'MovieView', params:{page:1}}">영화</router-link>
-          <router-link :to="{name:'test'}">test</router-link>
+          <router-link :to="{name:'MovieView', params:{page:1}}">영화 목록</router-link>
           <div v-if="isLogin">
             <router-link :to="{name:'MyContentView'}">내 컨텐츠</router-link>
             <router-link :to="{name:'ArticleView'}">커뮤니티</router-link>

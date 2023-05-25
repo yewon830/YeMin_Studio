@@ -16,6 +16,7 @@ export default {
     methods:{
       openModal(movieId){
       this.$store.dispatch('getDetailMovie', movieId)
+      this.$store.dispatch('getReviewList', movieId)
     }
     }
 }

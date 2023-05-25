@@ -1,17 +1,23 @@
 <template>
   <div>
-    <h1>{{userProfile.username}}의 프로필</h1>
-    <p>{{userProfile.profile_image}}</p>
-    <button class="btn "></button>
-    <p>팔로잉 : {{userProfile.followings_count}}</p>
-    <p>팔로워 : {{userProfile.followers_count}}</p>
-    <h1>내가 쓴 리뷰</h1>
-    <div v-for="review in userProfile.reviews" :key="review.id">
-        <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(review[1])">
-            <p>{{review[0]}} | </p>
-            <p>{{review[1]}}</p>
+    <h1 class="text-start" style="margin-top: 40px;">{{userProfile.username}}의 프로필</h1>
+    <hr>
+    <h3 class="text-start">내가 쓴 리뷰</h3>
+    <div class="d-flex flex-column justify-content-center align-items-start m-4">
+      <div style="background-color: white; width: 80%; margin: auto; min-height: 800px;">
+        <div v-for="review in userProfile.reviews" :key="review.id">
+        <a style="font-size: 20px;" data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail myreview" @click="openModal(review[1])">
+            <p style="color: black;" class="text-start">{{review[0]}}</p>
+            
         </a>
+      </div>
+
+
+      </div>
+
+
     </div>
+
 
             <!-- Modal -->
   
@@ -57,11 +63,15 @@ export default {
         },
         openModal(movieId){
             this.$store.dispatch('getDetailMovie', movieId)
+            this.$store.dispatch('getReviewList', movieId)
         }
     }
 }
 </script>
 
 <style>
-
+.myreview{
+  text-decoration: none;
+  color: white;
+}
 </style>

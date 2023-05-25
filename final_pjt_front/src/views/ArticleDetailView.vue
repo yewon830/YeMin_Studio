@@ -1,18 +1,26 @@
 <template>
-  <div>
-    <h1>{{article?.title}}</h1>
-    <span>{{article?.user.username}}</span>
-    <p>작성 시간 : {{article?.created_at}}</p>
-    <p>수정 시간 : {{article?.updated_at}}</p>
-    <p>{{article?.content}}</p>
+    <div style="background-color: white; min-height: 100vh;" class="d-flex justify-content-center text-black">
+        <div class="article-box">
+            <div style="margin-top:60px;" class="d-flex flex-column justify-content-center">
+                    <strong><p style="font-size: 42px;" class="text-center">{{article?.title}}</p></strong>
+                    <span style="margin-top: 0px; font-size: 18px; color: gray;">by. {{article?.username}}</span>                
+                    <hr >
+            </div>
+        
+        <p style="font-size: 20px; margin-top: 20px;">{{article?.content}}</p>
+        <div class="d-flex justify-content-center" style="color: gray;">
+            <p>작성 시간 : {{createdAt}}</p>
+            <p style="margin-left: 10px;">수정 시간 : {{updateAt}}</p>
+        </div>
+        <div>
+            <a class="btn btn-outline-primary" :href="`http://localhost:8080/articles/${this.$route.params.articleId}/update`">수정하기</a>
+            <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="deleteArticle">삭제하기</button>
+        </div>
+        <hr>
+            <Comment :articleId="article.id"/>
+        </div>
+    </div>
 
-    <a :href="`http://localhost:8080/articles/${this.$route.params.articleId}/update`">수정하기</a>
-    <button @click="deleteArticle">삭제하기</button>
-
-
-    <Comment :articleId="article.id"/>
-
-  </div>
 </template>
 
 <script>
@@ -31,6 +39,12 @@ export default {
     computed:{
         username(){
             return this.$store.state.username
+        },
+        createdAt(){
+            return this.article.created_at.substr(0,10)
+        },
+        updateAt(){
+            return this.article.updated_at.substr(0,10)
         }
 
     },
@@ -61,5 +75,7 @@ export default {
 
 
 <style>
-
+.article-box{
+    width: 70%;
+}
 </style>

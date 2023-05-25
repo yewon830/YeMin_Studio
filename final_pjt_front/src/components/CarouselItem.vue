@@ -18,7 +18,7 @@
             </button>
             <div class="home-text">
                 <p>Find Your Own Movie</p>
-                <button class="btn btn-primary">Go To Movie List</button>
+                <button @click="goMovie" class="btn btn-primary">Go To Movie List</button>
             </div>
         </div> 
     </div>
@@ -50,6 +50,9 @@ export default {
             .catch((err)=>{
                 console.log(err)
             })
+        },
+        goMovie(){
+            this.$router.push({name:'MovieView', params:{page:1}})
         }
     }
 }

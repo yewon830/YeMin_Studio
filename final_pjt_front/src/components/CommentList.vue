@@ -1,19 +1,27 @@
 <template>
   <div>
-    <div v-for="(comment) in comments" :key="comment.id">
-        <span>{{comment.content}}</span>
-        <span>작성자 : {{comment.username}}</span>
-        <div v-if="currentUsername === comment.username">
-            <button @click="deleteComment(comment.id)">삭제</button>
-            <button @click="addList(comment.id)">수정</button>
+    <div>
+        <div v-for="(comment) in comments" :key="comment.id">
+                <strong><span style="font-size: 18px; margin-left: 20px; color:rgba(21, 21, 211, 0.87)"> {{comment.username}}</span></strong>
+                <span style="font-size: 16px; margin-left: 10px; margin-bottom: 10px;">{{comment.content}}</span>
+        <div v-if="currentUsername === comment.username" style="margin-bottom: 20px;">
+            <button class="btn btn-outline-primary" @click="addList(comment.id)">수정</button>
             <div v-if="isBtnClicked(comment.id)">
                 <form @submit.prevent="updateComment(comment.id)">
-                    <input type="text" v-model="content" style="width: 500px; height: 80px;">
-                    <button>작성</button>
+                    <input class="comment-input" type="text" v-model="content" style="width: 500px; height: 80px;">
+                    <button class="btn btn-primary">작성</button>
                 </form>
             </div>
+            <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="deleteComment(comment.id)">삭제</button>
+        
         </div>
+
     </div>
+
+
+
+    </div>
+
   </div>
 </template>
 

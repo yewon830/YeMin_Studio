@@ -3,7 +3,7 @@
     <h1>추천 창</h1>
     <button @click="getRecommendMovieList">새로 추천받기</button>
 
-    <div class="movie-image-container container">
+    <div class="movie-image-container container1">
       <p >
       백만명의 사람들이 내 영화를 보았다면 나는 그들이 백만개의 다른 영화를 보았으면 한다.
         - 쿠엔틴 타란티노 -
@@ -114,13 +114,14 @@ export default {
       },
       openModal(movieId){
         this.$store.dispatch('getDetailMovie',movieId)
+        this.$store.dispatch('getReviewList', movieId)
       }
     },
 }
 </script>
 
 <style>
-.container {
+.container1 {
   position: relative;
   width: 200px;
   margin: 100px auto 0 auto;

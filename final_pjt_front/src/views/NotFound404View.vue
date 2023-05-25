@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>수정창</h1>
+    <h1>Not Found 404</h1>
   </div>
 </template>
 
 <script>
 export default {
-
+    name: 'NotFound404View'
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
-  <div>
-
-    <ArticleItem  v-for="article in articleList" :key="article.id" :article="article"/>
+  <div class="d-flex justify-content-center">
+    <div class="article-list text-start">
+      <ArticleItem  v-for="article in articleList" :key="article.id" :article="article"/>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -30,5 +32,9 @@ export default {
 </script>
 
 <style>
+.article-list{
 
+  width: 80%;
+  border-radius: 2px;
+}
 </style>

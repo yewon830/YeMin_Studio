@@ -1,15 +1,16 @@
 <template>
-    <div>
+    <div style="margin-top: 10px;">
       <div v-for="review in reviews" :key="review.id" >
-          <span>{{review.content }}|</span>
-          <span>작성자{{ review.username }}</span>
+        <strong><span style="margin-right: 10px; color: rgb(33, 33, 165);">작성자{{ review.username }}</span></strong>
+          <span>{{review.content }}</span>
+          <span style="margin-left: 10px; color: darkgoldenrod;">{{ review.rank }}점</span>
           <div v-if="currentUsername === review.username">
               <button @click="deleteReview(review.id)">삭제</button>
               <button @click="addList(review.id)">수정</button>
               <div v-if="isBtnClicked(review.id)">
                   <form @submit.prevent="updateReview(review.id)">
                       <input type="text" v-model="content" style="width: 500px; height: 80px;">
-                                  <div class="star-rating">
+                        <div class="star-rating">
                       <input v-model="rank" type="radio" id="05-stars" name="rating" value="5" />
                       <label  for="05-stars" class="star">&#9733;</label>
                       <input v-model="rank" type="radio" id="04-stars" name="rating" value="4" />

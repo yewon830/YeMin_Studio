@@ -251,7 +251,7 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
-        console.log(response.data)
+        // console.log(response.data)
         context.commit('GET_USER_PROFILE', response.data)
       })
       .catch((err)=>{

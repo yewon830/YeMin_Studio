@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -6,13 +6,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-import json
 from movies.models import Movie
-from movies.serializers import MovieDetailSerializer, MovieSerializer
+from movies.serializers import MovieSerializer
 from django.db.models import Count
 from random import sample
 import random
-# Create your views here.
+
 
 # 회원가입
 @api_view(['POST'])
@@ -71,18 +70,11 @@ def logout_view(request):
 @permission_classes([IsAuthenticated])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    
-    # followings_count = user.followings.count()
-    # followers_count = user.followers.count()
     reviews = user.reviews.all()
-    articles = user.articles.all()
     
     data = {
         'username': user.username,
-        # 'followings_count': followings_count,
-        # 'followers_count': followers_count,
         'reviews': [{review.movie_id ,review.content} for review in reviews],
-        'articles' : [{article.title, article.content} for article in articles],
     }
     
     return Response(data)
@@ -158,16 +150,3 @@ def commend_movies(request):
             'movies': []
         }
     return Response(data)
-
-
-# 팔로우 팔로잉
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def follow(request, user_pk):
-    person = get_object_or_404(User, pk=user_pk)
-    if person != request.user:
-        if person.followers.filter(pk=request.user.pk).exists():
-            person.followers.remove(request.user)
-        else:
-            person.followers.add(request.user)
-    return Response(status=204)

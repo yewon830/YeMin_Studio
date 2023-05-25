@@ -251,7 +251,7 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
-        console.log(response.data)
+        // console.log(response.data)
         context.commit('GET_USER_PROFILE', response.data)
       })
       .catch((err)=>{
@@ -352,6 +352,7 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
+
     ////////////////아티클
     getArticleList(context){
       axios({

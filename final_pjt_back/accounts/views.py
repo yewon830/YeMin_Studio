@@ -72,15 +72,17 @@ def logout_view(request):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     
-    followings_count = user.followings.count()
-    followers_count = user.followers.count()
+    # followings_count = user.followings.count()
+    # followers_count = user.followers.count()
     reviews = user.reviews.all()
+    articles = user.articles.all()
     
     data = {
         'username': user.username,
-        'followings_count': followings_count,
-        'followers_count': followers_count,
+        # 'followings_count': followings_count,
+        # 'followers_count': followers_count,
         'reviews': [{review.movie_id ,review.content} for review in reviews],
+        'articles' : [{article.title, article.content} for article in articles],
     }
     
     return Response(data)

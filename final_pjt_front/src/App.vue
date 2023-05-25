@@ -2,7 +2,9 @@
   <div id="app">
     <nav class="navbar">
       <div class="container-fluid nav-div">
-          <router-link :to="{name:'HomeView'}" style="color: #3395f4;">YeMin TV</router-link>
+          <router-link :to="{name:'HomeView'}" style="color: #3395f4;">
+            <img src="@/assets/YEMINLOGO.png" style="width: 130px; border-radius: 0px" alt="">
+          </router-link>
 
           <router-link :to="{name:'MovieView', params:{page:1}}">영화 목록</router-link>
           <div v-if="isLogin">
@@ -77,6 +79,7 @@ export default {
 #app > nav {
   color: #d4d7db;
   background-color: #141517;
+  padding: 0;
 }
 
 .nav-div{

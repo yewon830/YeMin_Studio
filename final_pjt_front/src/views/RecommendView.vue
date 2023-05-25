@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <h1>추천 창</h1>
-    <button @click="getRecommendMovieList">새로 추천받기</button>
+  <div style="min-height: 1000px">
+    <h1 style="margin-top:30px;" class="text-start">{{currentUsername}}님에게 추천하는 영화</h1>
+    <button class="button fourth" @click="getRecommendMovieList">새로 추천받기</button>
 
     <div class="movie-image-container container1">
-      <p >
+      <p style="font-size:20px;" >
       백만명의 사람들이 내 영화를 보았다면 나는 그들이 백만개의 다른 영화를 보았으면 한다.
-        - 쿠엔틴 타란티노 -
+        - 쿠엔틴 타란티노
       </p>
   <div class="carousel2">
 
     <div class="carousel__face thumbnail movie-item" data-bs-target="#exampleModal" data-bs-toggle="modal" @click="openModal(recommendMovieList[0].id)">
-      <span>영화란</span>
+
       <img class="movie-image" :src="`http://image.tmdb.org/t/p/w200${recommendMovieList[0].poster_path}`" alt="">
       <div class="movie-info d-flex flex-column">
         <span class="hover-title recommend-span">{{ recommendMovieList[0].title }}</span>
@@ -20,7 +20,7 @@
       
       </div>
     <div class="carousel__face thumbnail movie-item" data-bs-target="#exampleModal" data-bs-toggle="modal" @click="openModal(recommendMovieList[1].id)">
-      <span>지루한</span>
+
       <img class="movie-image" :src="`http://image.tmdb.org/t/p/w200${recommendMovieList[1].poster_path}`" alt="">
       <div class="movie-info d-flex flex-column">
         <span class="hover-title recommend-span">{{ recommendMovieList[1].title }}</span>
@@ -29,7 +29,7 @@
       
       </div>
     <div class="carousel__face thumbnail movie-item" data-bs-target="#exampleModal" data-bs-toggle="modal" @click="openModal(recommendMovieList[2].id)">
-      <span>부분이</span>
+
       <img class="movie-image" :src="`http://image.tmdb.org/t/p/w200${recommendMovieList[2].poster_path}`" alt="">
       <div class="movie-info d-flex flex-column">
         <span class="hover-title recommend-span">{{ recommendMovieList[2].title }}</span>
@@ -38,7 +38,7 @@
       
       </div>
     <div class="carousel__face thumbnail movie-item" data-bs-target="#exampleModal" data-bs-toggle="modal" @click="openModal(recommendMovieList[3].id)">
-      <span>커트된</span>
+
       <img class="movie-image" :src="`http://image.tmdb.org/t/p/w200${recommendMovieList[3].poster_path}`" alt="">
       <div class="movie-info d-flex flex-column">
         <span class="hover-title recommend-span">{{ recommendMovieList[3].title }}</span>
@@ -47,7 +47,7 @@
       
       </div>
     <div class="carousel__face thumbnail movie-item" data-bs-target="#exampleModal" data-bs-toggle="modal" @click="openModal(recommendMovieList[4].id)">
-      <span>인생이다</span>
+
       <img class="movie-image" :src="`http://image.tmdb.org/t/p/w200${recommendMovieList[4].poster_path}`" alt="">
       <div class="movie-info d-flex flex-column">
         <span class="hover-title recommend-span">{{ recommendMovieList[4].title }}</span>
@@ -72,7 +72,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -87,6 +86,11 @@ export default {
     name: 'RecommendView',
     components:{
       DetailMovieView
+    },
+    computed:{
+      currentUsername(){
+        return this.$store.state.username
+      }
     },
     data(){
       return{
@@ -177,4 +181,22 @@ export default {
     transform: rotateY(-360deg);
   }
 }
+
+.fourth {
+  border-color: #8497d0;
+  border-radius: 2px;
+  height: 40px;
+  width: 170px;
+  color: #17138d;
+  background-image: -webkit-linear-gradient(45deg, #8497d0 50%, transparent 50%);
+  background-image: linear-gradient(45deg, #8497d0 50%, transparent 50%);
+  background-position: 100%;
+  background-size: 400%;
+  -webkit-transition: background 300ms ease-in-out;
+  transition: background 300ms ease-in-out;
+}
+.fourth:hover {
+  background-position: 0;
+}
+
 </style>

@@ -60,13 +60,17 @@ export default {
 
 <style>
 .carousel-inner img{
-    filter: brightness(60%);
+    filter: brightness(50%);
 }
-.home-text{
+.home-text {
     font-size: 70px;
     position: absolute;
     top: 26%;
-    left: 34%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transform: translateX(-50%);
+    margin-left: 50%;
 }
 
 </style>

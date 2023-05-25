@@ -1,31 +1,31 @@
 <template>
-  <div>
+
     <div>
-        <div v-for="(comment) in comments" :key="comment.id">
-                <strong><span style="font-size: 18px; margin-left: 20px; color:rgba(21, 21, 211, 0.87)"> {{comment.username}}</span></strong>
-                <span style="font-size: 16px; margin-left: 10px; margin-bottom: 10px;">{{comment.content}}</span>
-        <div v-if="currentUsername === comment.username" style="margin-bottom: 20px;">
-            <button class="btn btn-outline-primary" @click="addList(comment.id)">수정</button>
-            <div v-if="isBtnClicked(comment.id)">
-                <form @submit.prevent="updateComment(comment.id)">
-                    <input class="comment-input" type="text" v-model="content" style="width: 500px; height: 80px;">
-                    <button class="btn btn-primary">작성</button>
-                </form>
-            </div>
-            <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="deleteComment(comment.id)">삭제</button>
-        
+  <div class="d-flex flex-column justify-content-center">
+    <div v-for="(comment) in comments" :key="comment.id" class="comment-container">
+      <div class="d-flex align-items-center">
+        <div class="comment-info">
+          <strong style="color: blue; margin-right:10px">{{ comment.username }}</strong>
+          <span>{{ comment.content }}</span>
         </div>
-
+        <div class="comment-actions">
+          <button class="btn btn-outline-primary" style="width:60px; height:40px; margin-left:10px; margin-right:10px" @click="addList(comment.id)">수정</button>
+          <button class="btn btn-outline-primary" style="height:40px; width:60px;" @click="deleteComment(comment.id)">삭제</button>
+        </div>
+      </div>
+      <div class="comment-form" v-if="isBtnClicked(comment.id)">
+        <form @submit.prevent="updateComment(comment.id)" class="d-flex flex-column align-items-center">
+          <input class="comment-input" type="text" v-model="content" style="width: 700px; height: 80px;">
+          <button class="btn btn-primary">작성</button>
+        </form>
+      </div>
     </div>
-
-
-
-    </div>
-
   </div>
+</div>
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 export default {
     name:'CommentList',
@@ -86,6 +86,14 @@ export default {
         },
         updateComment(commentId){
             const content = this.content
+                            if(!content){
+                    Swal.fire({
+                    title: '내용을 입력해주세요',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                    })
+                    return
+                }
             axios({
                 method: 'put',
                 url: `http://127.0.0.1:8000/articles/comments/${commentId}/`,
@@ -97,6 +105,7 @@ export default {
                 }
             })
             .then(()=>{
+
                 this.$store.dispatch('getCommentList', this.articleId)
                 this.content = null
             })
@@ -109,5 +118,27 @@ export default {
 </script>
 
 <style>
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
+.comment-info {
+  margin-top: 5px;
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+  width: 720px;
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.comment-form {
+  text-align: center;
+}
 </style>

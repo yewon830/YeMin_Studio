@@ -32,21 +32,20 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
     </div>
 
-    
+    <!-- 페이지 네이션 -->
     <div class="d-flex justify-content-center">
-      <a class="page-button" :href="getPageUrl(1)+sortOption">처음으로</a>
-      <button class="page-button" @click="prevPage">이전</button>
+      <a class="page-button  btn btn-outline-primary" :href="getPageUrl(1)+sortOption">처음으로</a>
+      <button class="page-button  btn btn-outline-primary" style="margin-right:10px; margin-left:10px;" @click="prevPage">이전</button>
       <div v-for="i in displayPerPage" :key="i">
-        <a class="page-button" :class="{ active: i === currentPage }" :href="`${getPageUrl(i)}${sortOption}`">{{ i }}</a>
+        <a class="page-button" style="font-size: 18px; text-decoration:none;" :class="{ active: i === currentPage }" :href="`${getPageUrl(i)}${sortOption}`">{{ i }}</a>
       </div>
-      <button class="page-button" @click="nextPage">다음</button>
-      <a class="page-button" :href="getPageUrl(totalPage)+sortOption">마지막으로</a>
+      <button class="page-button  btn btn-outline-primary" style="margin-right:10px; margin-left: 10px;" @click="nextPage">다음</button>
+      <a class="page-button  btn btn-outline-primary" :href="getPageUrl(totalPage)+sortOption">마지막으로</a>
     </div>
   </div>
 </template>
@@ -183,8 +182,8 @@ export default {
   margin-top: 10px;
 }
 .page-button{
-  padding-left: 2px;
-  padding-right: 2px;
+  padding: 2px;
+  margin-bottom: 10px;
 }
 
 </style>

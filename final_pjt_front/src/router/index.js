@@ -46,7 +46,7 @@ const routes = [
     component: ArticleDetailView
   },
   {
-    path: '/articles/create',
+    path: '/create/articles',
     name: 'ArticleCreateView',
     component: ArticleCreateView
   },

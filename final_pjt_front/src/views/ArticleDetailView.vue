@@ -12,13 +12,14 @@
             <p>작성 시간 : {{createdAt}}</p>
             <p style="margin-left: 10px;">수정 시간 : {{updateAt}}</p>
         </div>
-        <div>
+        <div v-if="article.username == username">
             <a class="btn btn-outline-primary" :href="`http://localhost:8080/articles/${this.$route.params.articleId}/update`">수정하기</a>
             <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="deleteArticle">삭제하기</button>
         </div>
         <hr>
             <Comment :articleId="article.id"/>
         </div>
+        
     </div>
 
 </template>

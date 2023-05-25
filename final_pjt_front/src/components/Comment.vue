@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <h3 class="text-center" style="margin-top: 30px;">댓글</h3>
     <CommentForm :articleId="articleId"/>
     <CommentList :articleId="articleId"/>

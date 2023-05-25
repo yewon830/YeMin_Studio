@@ -1,6 +1,6 @@
 <template>
-  <div class="sign-up-page">
-    <a href="http://localhost:8080/">YeMin TV</a>
+  <div class="sign-up-page" style="margin-top: 60px;">
+    <a href="http://localhost:8080/"><img src="@/assets/YEMINLOGO.png" style="width: 150px; border-radius: 0; margin-bottom: 20px;" alt=""></a>
     <div class="sign-up-box">
         <div>회원가입</div>
         <form @submit.prevent="signUp" style="text-align: start;">

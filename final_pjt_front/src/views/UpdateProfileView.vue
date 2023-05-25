@@ -1,21 +1,41 @@
 <template>
   <div>
-    <h1>회원정보 변경</h1>
-    <form @submit.prevent="updateProfile">
+    <h1 class="text-start" style="margin-top:30px">회원정보 변경</h1>
+    <div class="d-flex justify-content-center align-items-center" style="margin-top:60px; color:black;" >
+          <div class="sign-up-box">
+          <form @submit.prevent="updateProfile" style="text-align:start;">
         <p>닉네임</p>
-        <input type="text" v-model="nickname">
+        <div class="input-box">
+          <input  type="text" v-model="nickname">
+        </div>
+        
         <p>이메일</p>
-        <input type="email" v-model="email">
+        <div class="input-box">
+          <input  type="email" v-model="email">
+        </div>  
+        
         <p>비밀번호</p>
-        <input type="password" v-model="password1">
+        <div class="input-box">
+          <input  type="password" v-model="password1">
+        </div>
+        
         <p>비밀번호 확인</p>
-        <input type="password" v-model="password2">
-        <button>변경</button>
+        <div class="input-box">
+          <input  type="password" v-model="password2">
+        </div>
+
+        <button class="btn btn-primary">변경</button>
     </form>
+
+    </div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 export default {
     name : 'UpdateProfileView',
     data(){
@@ -43,19 +63,35 @@ export default {
       },
       updateProfile(){
         if(this.password1!= this.password2){
-          alert('패스워드가 일치하지 않습니다')
+          Swal.fire({
+            icon:'error',
+            title:'비밀번호가 일치하지 않습니다',
+            confirmButtonText: '확인'
+          })
           return
         }
         if(!this.password1){
-          alert('패스워드를 입력해주세요')
+          Swal.fire({
+            icon:'error',
+            title:'패스워드를 입력해주세요',
+            confirmButtonText: '확인'
+          })
           return
         }
         if(!this.password2){
-          alert('패스워드 확인을 해주세요.')
+          Swal.fire({
+            icon:'error',
+            title:'패스워드 확인을 입력해주세요',
+            confirmButtonText: '확인'
+          })
           return
         }
         if(!this.nickname){
-          alert('닉네임을 입력해주세요.')
+          Swal.fire({
+            icon:'error',
+            title:'닉네임을 입력해주세요',
+            confirmButtonText: '확인'
+          })
           return
         }
         const nickname = this.nickname

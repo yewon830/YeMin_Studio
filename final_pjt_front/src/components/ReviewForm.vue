@@ -1,7 +1,7 @@
 <template>
     <div >
       <form @submit.prevent="onSubmit">
-        <div>
+        <div class="d-flex justify-content-center">
             <input class="review-form" style="width: 500px; height: 60px; margin-top: 10px; margin-right: 10px;" type="text" placeholder="리뷰를 작성해주세요" v-model="content">
             <div class="star-rating" style="margin-top: 10px;">
               <input v-model="rank" type="radio" id="5-stars" name="rating" value="5" />
@@ -23,6 +23,7 @@
   </template>
   
   <script>
+  import Swal from 'sweetalert2/dist/sweetalert2.js'
   import axios from 'axios'
   export default {
   
@@ -43,8 +44,19 @@
               const movieId = this.movieId
               console.log(this.movieId)
               if (!content || !movieId) {
-                  alert('리뷰를 작성해주세요')
+                  Swal.fire({
+                    icon: 'error',
+                    title: '리뷰를 입력해주세요',
+                    confirmButtonText: '확인'
+                  })
                   return
+              } else if(!rank){
+                  Swal.fire({
+                    icon: 'error',
+                    title: '별점을 입력해주세요',
+                    confirmButtonText: '확인'
+                  })
+                  return                
               }
               axios({
                   method: 'post',

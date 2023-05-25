@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+// import axios from 'axios'
 export default {
     name: 'ArticleCreateView',
     data(){
@@ -25,30 +26,26 @@ export default {
     },
     methods:{
         createArticle(){
-            const title = this.title
+            const title=this.title
             const content = this.content
-            if(!title){
-                alert('제목을 입력해주세요')
+                        if(!this.content){
+                Swal.fire({
+                    icon: 'error',
+                    title: '내용을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
                 return
-            }else if(!content){
-                alert('내용을 입력해주세요')
+
+            } else if(!this.title){
+                Swal.fire({
+                    icon: 'error',
+                    title: '제목을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
                 return
             }
-            axios({
-                method: 'post',
-                url: `http://127.0.0.1:8000/articles/`,
-                headers: {
-                Authorization: `Token ${this.$store.state.token}`
-                },
-                data: {title,content}
-            })
-            .then(()=>{
-                // console.log(response)
-                this.$router.push({name:'ArticleView'})
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
+            const payload = {title,content}
+            this.$store.dispatch('createArticle', payload )
         }
     }
 }

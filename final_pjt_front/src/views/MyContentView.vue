@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1 style="margin-top: 50px;" >내가 좋아요 한 컨텐츠</h1>
+    <h1 class="text-start" style="margin-top: 30px;">내 컨텐츠</h1>
+    <h3 style="margin-top: 50px;" >내가 좋아요 한 컨텐츠</h3>
     <div class="container d-flex">
       <div class="row" style="margin-right: auto;">
         <div class="col-md-12">
@@ -8,11 +9,23 @@
             <div class="carousel-inner1" style="margin-left:80px">
               <div v-for="(group, index) in groupedLikeMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
                 <div class="row" style="margin-left:5px">
-                  <div v-for="movie in group" :key="movie.id" class="col-md-2" style="margin-right:10px">
-                    <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
-                      <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
-                    </a>
+                  <div v-for="movie in group" :key="movie.id" class="col-md-2 " style="margin-right:10px">
+                    <div class="movie-item">
+                                          <div class="movie-image-container">                    
+                      <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
+                      <img class="m-4 movie-image" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
+                      </a>
+                    </div>
+
+                        <div class="movie-info d-flex flex-column">
+                      <p class="hover-title">{{ movie.title }}</p>
+                      <p class="rating">평점 ★ {{ movie.vote_average }}</p>
+                    </div>
+                    </div>
+          
+
                   </div>
+
                 </div>
               </div>
             </div>
@@ -28,7 +41,7 @@
         </div>
       </div>
     </div>
-    <h1>나의 위시리스트</h1>
+    <h3>나의 위시리스트</h3>
     <div class="container d-flex">
       <div class="row" style="margin-right: auto;">
         <div class="col-md-12">
@@ -37,9 +50,20 @@
               <div v-for="(group, index) in groupedWishMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
                 <div class="row" style="margin-left:5px">
                   <div v-for="movie in group" :key="movie.id" class="col-md-2" style="margin-right:10px">
+                    <div class="movie-item">
+                                           <div class="movie-image-container">    
                     <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
-                      <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
+                      <img class="m-4 movie-image" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
                     </a>
+                    </div>
+                     <div class="movie-info d-flex flex-column">
+                      <p class="hover-title">{{ movie.title }}</p>
+                      <p class="rating">평점 ★ {{ movie.vote_average }}</p>
+                    </div>
+
+
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -73,7 +97,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>

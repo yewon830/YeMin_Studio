@@ -4,6 +4,7 @@
       <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4">
           <SearchMovieItem v-for="movie in movies" :key="movie.title" :movie="movie"/>
       </div>
+
   
   
                 <!-- Modal -->
@@ -21,7 +22,6 @@
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
               </div>
               </div>
           </div>

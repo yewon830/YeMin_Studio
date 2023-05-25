@@ -1,6 +1,8 @@
 <template>
-  <div class="login-page">
-    <a href="http://localhost:8080/">YeMin TV</a>
+  <div class="login-page" style="margin-top:60px;" >
+    <a href="http://localhost:8080/">
+    <img src="@/assets/YEMINLOGO.png" style="width: 150px; border-radius: 0; margin-bottom: 20px;" alt="">
+    </a>
     <div class="login-box">
         <form @submit.prevent="login">
             <div>

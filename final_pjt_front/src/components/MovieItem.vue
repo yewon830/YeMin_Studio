@@ -52,12 +52,13 @@ img{
 .movie-item:hover .movie-image {
   transform: scale(1.1);
   filter: brightness(50%);
+  cursor: pointer;
   /* background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, rgba(0, 0, 0, 0.7) 0%); */
 }
 .movie-info {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 30px;
+  left: 10px;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;

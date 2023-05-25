@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 export default {
     name:'LoginView',
     data(){
@@ -34,9 +35,24 @@ export default {
     },
     methods: {
         login(){
+
             const username = this.username
             const password = this.password
-
+            if(!username){
+                    Swal.fire({
+                    icon: 'error',
+                    title: '유저네임을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if(!password){
+                Swal.fire({
+                    icon: 'error',
+                    title: '비밀번호를 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }
             const payload = {
                 username, password
             }

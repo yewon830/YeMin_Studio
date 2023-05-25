@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 export default {
     name: 'SignUpView',
     data(){
@@ -59,12 +60,55 @@ export default {
     },
     methods: {
         signUp(){
+
             const username = this.username
             const nickname = this.nickname
             const email = this.email
             const password1 = this.password1
             const password2 = this.password2
-
+            if(!username){
+                 Swal.fire({
+                    icon: 'error',
+                    title: '유저네임을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if(!nickname){
+                 Swal.fire({
+                    icon: 'error',
+                    title: '닉네임을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if(!email){
+                 Swal.fire({
+                    icon: 'error',
+                    title: '이메일을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if(!password1){
+                 Swal.fire({
+                    icon: 'error',
+                    title: '비밀번호를 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if(!password2){
+                 Swal.fire({
+                    icon: 'error',
+                    title: '비밀번호 확인을 입력해주세요',
+                    confirmButtonText: '확인'
+                })
+                return
+            }else if (password1!=password2){
+                    Swal.fire({
+                    icon: 'error',
+                    title: '비밀번호가 일치하지 않습니다.',
+                    confirmButtonText: '확인'
+                })
+                return
+            }
             const payload = {
                 username, nickname, email, password1, password2
             }

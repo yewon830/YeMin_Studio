@@ -71,10 +71,13 @@ def logout_view(request):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     reviews = user.reviews.all()
+    articles = user.articles.all()
     
     data = {
         'username': user.username,
-        'reviews': [{review.movie_id ,review.content} for review in reviews],
+        'nickname': user.nickname,
+        'reviews': [{'id' : review.movie_id , 'content' :review.content} for review in reviews],
+        'articles' : [{'title':article.title, 'content':article.content, 'id' :article.id} for article in articles],
     }
     
     return Response(data)

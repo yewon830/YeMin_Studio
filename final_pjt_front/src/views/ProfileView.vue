@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1 class="text-start" style="margin-top: 40px;">{{userProfile.username}}의 프로필</h1>
+    <h1 class="text-start" style="margin-top: 40px;">{{userProfile.nickname}}의 프로필</h1>
     <hr>
     <h3 class="text-start">내가 쓴 리뷰</h3>
     <div class="d-flex flex-column justify-content-center align-items-start m-4">
       <div style="background-color: white; width: 80%; margin: auto; min-height: 800px;">
         <div v-for="review in userProfile.reviews" :key="review.id">
         <a style="font-size: 20px;" data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail myreview" >
-            <p style="color: black;" class="text-start my-text" @click="openModal(review[1])">{{review[0]}}</p> 
+            <p style="color: black;" class="text-start my-text" @click="openModal(review.id)">{{review.content}}</p> 
         </a>
       </div>
 
@@ -21,9 +21,9 @@
       <h3 class="text-start m-4">내가 쓴 게시글</h3>
       <div style="background-color: white; width: 80%; margin: auto; min-height: 800px;">
         <div v-for="article in userProfile.articles" :key="article">
-        <a :href="`http://127.0.0.1:8000/articles/${article.id}`" style="text-decoration:none;">
-            <h3 style="color: black; margin:10px" class="text-start">{{article[1]}}</h3>
-            <p style="color:black; text-start margin: 10px" class="article-list-content">{{article[0]}}</p>
+        <a :href="`http://localhost:8080/articles/${article.id}`" style="text-decoration:none;">
+            <h3 style="color: black; margin:10px" class="text-start">{{article.title}}</h3>
+            <p style="color:black; text-start margin: 10px" class="article-list-content">{{article.content}}</p>
             <hr>
         </a>
       </div>
@@ -73,8 +73,8 @@ export default {
     },
     methods: {
         getUserProfile(){
-
             this.$store.dispatch('getUserProfile')
+            console.log(this.userProfile)
         },
         openModal(movieId){
           // console.log(movieId)
@@ -92,7 +92,7 @@ export default {
   border-bottom: 1px solid black;}
 .my-text{
   padding-bottom:10px;
-  width: 800px;
+  width: 80%;
   border-bottom: 1px solid lightgray;
 }
 </style>

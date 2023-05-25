@@ -8,7 +8,7 @@
           <strong style="color: blue; margin-right:10px">{{ comment.username }}</strong>
           <span>{{ comment.content }}</span>
         </div>
-        <div class="comment-actions">
+        <div class="comment-actions" v-if="currentUsername ==comment.username">
           <button class="btn btn-outline-primary" style="width:60px; height:40px; margin-left:10px; margin-right:10px" @click="addList(comment.id)">수정</button>
           <button class="btn btn-outline-primary" style="height:40px; width:60px;" @click="deleteComment(comment.id)">삭제</button>
         </div>

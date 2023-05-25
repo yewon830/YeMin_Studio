@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
 import createPersistedState from 'vuex-persistedstate'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 Vue.use(Vuex)
 
 
@@ -158,6 +159,11 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: '이미 있는 닉네임입니다.',
+            confirmButtonText: '확인'
+        })
         })
     },
     login(context, payload) {
@@ -181,6 +187,11 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: '유저네임 혹은 비밀번호를 잘못 입력하셨습니다.',
+            confirmButtonText: '확인'
+        })
         })
     },
     updateProfile(context,payload){

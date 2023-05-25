@@ -53,8 +53,6 @@ img{
   filter: brightness(50%);
   /* background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, rgba(0, 0, 0, 0.7) 0%); */
 }
-
-
 .movie-info {
   position: absolute;
   bottom: 0;

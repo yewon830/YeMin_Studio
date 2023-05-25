@@ -1,21 +1,28 @@
 <template>
   <div>
     <h1 class="text-start">영화 목록</h1>
-    <div class="d-flex justify-content-center mt-4">
-      <button class="sort-button" :class="{ active: sortOption === 'popularity' }" @click="changeSortOption('popularity')">인기순</button>
-      <button class="sort-button" :class="{ active: sortOption === 'vote_average' }" @click="changeSortOption('vote_average')">평점순</button>
-      <button class="sort-button" :class="{ active: sortOption === 'title' }" @click="changeSortOption('title')">가나다순</button>
+    <div class="d-flex justify-content-start mt-4">
+      <div class="btn-group">
+        <button class="sort-button" :class="{ active: sortOption === 'popularity' }" @click="changeSortOption('popularity')">인기순</button>
+        <button class="sort-button" :class="{ active: sortOption === 'vote_average' }" @click="changeSortOption('vote_average')">평점순</button>
+        <button class="sort-button" :class="{ active: sortOption === 'title' }" @click="changeSortOption('title')">가나다순</button>
+      </div>
     </div>
-    <div class="d-flex container-fluid row row-cols-1 row-cols-md-6 g-4" >
-      <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" @openModal="openModal" />
+    <div class="container mx-auto">
+      <div class="d-flex justify-content-center">
+        <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-4 mx-auto">
+          <MovieItem v-for="movie in movies" :key="movie.title" :movie="movie" @openModal="openModal" />
+        </div>
+      </div>
     </div>
+
 
     <!-- Modal -->
     
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="height:10px">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -150,6 +157,26 @@ export default {
 </script>
 
 <style>
+.btn-group {
+  display: flex;
+  gap: 3em; /* 간격을 원하는 크기로 조정합니다. */
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
+.sort-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 25px;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  color: white; /* 버튼 텍스트 색상을 원하는 색으로 변경하세요. */
+}
+.sort-button.active {
+  font-weight: bold;
+  color : #3a8eee;
+}
 .text-start {
   text-align: start;
   margin-left: 30px;

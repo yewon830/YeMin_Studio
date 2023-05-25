@@ -2,13 +2,13 @@
   <div>
     <h1 >내가 좋아요 한 컨텐츠</h1>
     <div class="container d-flex">
-      <div class="row">
+      <div class="row" style="margin-right: auto;">
         <div class="col-md-12">
           <div id="Carousel" class="carousel slide">
-            <div class="carousel-inner">
+            <div class="carousel-inner1" style="margin-left:80px">
               <div v-for="(group, index) in groupedLikeMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
-                <div class="row">
-                  <div v-for="movie in group" :key="movie.id" class="col-md-2">
+                <div class="row" style="margin-left:5px">
+                  <div v-for="movie in group" :key="movie.id" class="col-md-2" style="margin-right:10px">
                     <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
                       <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
                     </a>
@@ -30,13 +30,13 @@
     </div>
     <h1>나의 위시리스트</h1>
     <div class="container d-flex">
-      <div class="row">
+      <div class="row" style="margin-right: auto;">
         <div class="col-md-12">
           <div id="Carousel2" class="carousel slide">
-            <div class="carousel-inner">
+            <div class="carousel-inner1" style="margin-left:80px">
               <div v-for="(group, index) in groupedWishMovieList" :key="index" :class="['carousel-item', index === 0 ? 'active' : '']">
-                <div class="row">
-                  <div v-for="movie in group" :key="movie.id" class="col-md-2">
+                <div class="row" style="margin-left:5px">
+                  <div v-for="movie in group" :key="movie.id" class="col-md-2" style="margin-right:10px">
                     <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="thumbnail" @click="openModal(movie.id)">
                       <img class="m-4" :src="`http://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="Image">
                     </a>
@@ -140,5 +140,9 @@ export default {
 </script>
 
 <style>
-
+.carousel-inner1 {
+  width: 1200px; /* 고정된 너비 */
+  height: 350px;
+}
 </style>
+

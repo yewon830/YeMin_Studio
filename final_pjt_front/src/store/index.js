@@ -14,8 +14,8 @@ export default new Vuex.Store({
   state: {
     movies : [],
     token : null,
-    likeMovie: null,
-    wishMovie:null,
+    likeMovie: [],
+    wishMovie: [],
     username: null,
     userProfile : {},
     currentUser: {},
@@ -68,11 +68,38 @@ export default new Vuex.Store({
       state.token = token
       router.push({name:'MovieView'})
     },
-    LIKE_MOVIE(state, movie){
-      state.likeMovie = (movie)
+    LIKE_MOVIE(state, payload){
+      if(!state.likeMovie) {
+        state.likeMovie = [] // 배열로 초기화
+      }else{
+        if(payload.liked){
+          state.likeMovie.push(payload.movieId)
+        }else{
+          for(let i=0; i<state.likeMovie.length; i++){
+            if(state.likeMovie[i]===payload.movieId){
+              state.likeMovie.splice(i,1)
+              i--
+            }
+          }
+        }
+      }
+
     },
-    WISH_MOVIE(state,movie){
-      state.wishMovie = (movie)
+    WISH_MOVIE(state,payload){
+      if(!state.wishMovie) {
+        state.wishMovie = [] // 배열로 초기화
+      }else{
+        if(payload.wished){
+          state.wishMovie.push(payload.movieId)
+        }else{
+          for(let i=0; i<state.wishMovie.length; i++){
+            if(state.wishMovie[i]===payload.movieId){
+              state.wishMovie.splice(i,1)
+              i--
+            }
+          }
+        }
+      }
     },
     SAVE_USERNAME(state,username){
       state.username = username
@@ -190,7 +217,8 @@ export default new Vuex.Store({
       })
       .then((response)=>{
         // console.log(response.data)
-        context.commit('LIKE_MOVIE', response.data.liked)
+        const payload = {movieId:movieId, liked:response.data.liked}
+        context.commit('LIKE_MOVIE', payload)
       })
       .catch((err)=>{
         console.log(err)
@@ -207,7 +235,8 @@ export default new Vuex.Store({
       })
       .then((response)=>{
         // console.log(response.data.wished)
-        context.commit('WISH_MOVIE', response.data.wished)
+        const payload = {movieId:movieId, wished:response.data.wished}
+        context.commit('WISH_MOVIE', payload)
       })
       .catch((err)=>{
         console.log(err)
@@ -222,6 +251,7 @@ export default new Vuex.Store({
         }
       })
       .then((response)=>{
+        console.log(response.data)
         context.commit('GET_USER_PROFILE', response.data)
       })
       .catch((err)=>{
@@ -355,22 +385,23 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    getCommentList(context){
+    getCommentList(context,articleId){
       axios({
-        url: `${API_URL}/articles/comments/`,
+        url: `${API_URL}/articles/${articleId}/comments/`,
         headers : {
           Authorization : `Token ${this.state.token}`
         }
       })
       .then((response)=>{
         context.commit('GET_COMMENT_LIST',response.data)
-
       })
       .catch((err)=>{
         console.log(err)
       })
     },
-    deleteComment(context,commentId){
+    deleteComment(context,payload){
+      const articleId = payload.articleId
+      const commentId = payload.commentId
       axios({
         method: 'delete',
         url: `${API_URL}/articles/comments/${commentId}/`,
@@ -379,7 +410,7 @@ export default new Vuex.Store({
         }
       })
       .then(()=>{
-        context.dispatch('getCommentList')
+        context.dispatch('getCommentList', articleId)
       })
       .catch((err)=>{
         console.log(err)

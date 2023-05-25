@@ -80,7 +80,7 @@ def profile(request, username):
         'username': user.username,
         'followings_count': followings_count,
         'followers_count': followers_count,
-        'reviews': [review.text for review in reviews],
+        'reviews': [{review.movie_id ,review.content} for review in reviews],
     }
     
     return Response(data)
@@ -129,16 +129,16 @@ def mycontents(request):
 def commend_movies(request):
     user = request.user
     
-    liked_movies = user.likes.all().values_list('movie', flat=True)
+    liked_movies = Movie.objects.filter(like_users=user)
     liked_genres = Movie.objects.filter(id__in=liked_movies).values_list('genre', flat=True)
     genre_counts = Movie.objects.exclude(id__in=liked_movies).exclude(genre__isnull=True).values('genre').annotate(count=Count('genre')).order_by('-count')
 
     if genre_counts.exists():
         top_genre = genre_counts[0]['genre']
-        movies = Movie.objects.filter(genre=top_genre).exclude(id__in=liked_movies).order_by('-likes')
+        movies = Movie.objects.filter(genre=top_genre).exclude(id__in=liked_movies)
 
         if movies.count() < 5:
-            next_genre_movies = Movie.objects.filter(genre__in=liked_genres).exclude(id__in=liked_movies).order_by('-likes')
+            next_genre_movies = Movie.objects.filter(genre__in=liked_genres).exclude(id__in=liked_movies)
             movies = movies.union(next_genre_movies)[:5]
             
         movies = random.sample(list(movies), min(5, movies.count()))

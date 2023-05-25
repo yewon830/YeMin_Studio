@@ -21,6 +21,9 @@
 import axios from 'axios'
 export default {
     name:'CommentList',
+    props: {
+        articleId: Number
+    },
     data(){
         return{
             clickedBtn: null,
@@ -40,14 +43,18 @@ export default {
         
     },
     created(){
-        this.getCommentList()
+        this.getCommentList(this.articleId)
     },
     methods: {
         getCommentList(){
-            this.$store.dispatch('getCommentList')
+            this.$store.dispatch('getCommentList', this.articleId)
         },
         deleteComment(commentId){
-            this.$store.dispatch('deleteComment',commentId)
+            const articleId = this.articleId
+            const payload = {
+                commentId, articleId
+            }
+            this.$store.dispatch('deleteComment',payload)
         },
         isBtnClicked(commentId){
         //클릭된 버튼의 커멘트 id
@@ -82,7 +89,7 @@ export default {
                 }
             })
             .then(()=>{
-                this.$store.dispatch('getCommentList')
+                this.$store.dispatch('getCommentList', this.articleId)
                 this.content = null
             })
             .catch((err)=>{

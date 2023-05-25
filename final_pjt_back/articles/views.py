@@ -47,9 +47,9 @@ def article_detail(request, article_pk):
             return Response(serializer.data)
         
 @api_view(['GET'])
-def comment_list(request):
+def comment_list(request, article_id):
     if request.method == 'GET':
-        comments = get_list_or_404(Comment)
+        comments = Comment.objects.filter(article_id=article_id)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
@@ -85,6 +85,6 @@ def comment_create(request, article_pk):
     
     serializer = CommentSerializer(data=comment_data)
     if serializer.is_valid():
-        serializer.save(article=article)
+        serializer.save(article=article, user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

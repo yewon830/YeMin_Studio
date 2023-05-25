@@ -14,8 +14,8 @@
         <font-awesome-icon :color="getWishColor(movie.id)" :icon="['fasl', 'folder-open']" size="lg" />
       </div>
       <div style="font-size: 0.875rem;">
-        <div>
-          <p>{{ movie.overview }}</p>
+        <div style="min-height: 29.125rem; font-size: 0.875rem;">
+          <p class="text-overview">{{ movie.overview }}</p>
           <input type="checkbox" class="more-btn">
         </div>
       </div>
@@ -95,11 +95,23 @@ export default {
         this.$store.dispatch('myContentList')
     },
     getHeartColor() {
-      // 해당 영화의 'heartColor' 값을 반환
-      return this.likeMovieData ? '#0d6efd' : 'black'
+      // console.log(this.likeMovieData)
+      if(this.likeMovieData){
+        const isLike = this.likeMovieData.includes(this.movie.id)
+        return isLike ? '#0d6efd' : 'black'
+      }else{
+        return 'black'
+      }
+      
     },
     getWishColor(){
-      return this.wishMovieData ? '#0d6efd' : 'black'
+      if(this.wishMovieData){
+        const isWished = this.wishMovieData.includes(this.movie.id)
+        return isWished ? '#0d6efd' : 'black'
+      }else{
+        return 'black'
+      }
+      
     },
     showReview(){
       this.isBtnClicked = !this.isBtnClicked

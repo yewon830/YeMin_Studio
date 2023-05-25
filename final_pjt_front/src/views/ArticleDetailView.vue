@@ -10,7 +10,7 @@
     <button @click="deleteArticle">삭제하기</button>
 
 
-    <Comment/>
+    <Comment :articleId="article.id"/>
 
   </div>
 </template>

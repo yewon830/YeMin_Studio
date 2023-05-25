@@ -3,9 +3,7 @@
       <h1>히히히</h1>
       <form @submit.prevent="commentCreate">
           <input type="text" v-model="content">
-          <input type="radio">
           <button>작성</button>
-  
       </form>
     </div>
   </template>
@@ -14,6 +12,9 @@
   import axios from 'axios'
   export default {
       name:'CommentForm',
+      props:{
+        articleId : Number
+      },
       data(){
           return{
               content: null,
@@ -24,14 +25,14 @@
               const content = this.content
               axios({
                   method: 'post',
-                  url: `http://127.0.0.1:8000/articles/${this.$route.params.articleId}/comments/`,
+                  url: `http://127.0.0.1:8000/articles/${this.articleId}/create/comments/`,
                   data: {content},
                   headers: {
                       Authorization: `Token ${this.$store.state.token}`
                   },
               })
               .then(()=>{
-                  this.$store.dispatch('getCommentList')
+                  this.$store.dispatch('getCommentList',this.articleId)
                   this.content = null
               })
               .catch((err)=>{

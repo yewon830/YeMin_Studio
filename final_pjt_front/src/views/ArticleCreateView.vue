@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-// import axios from 'axios'
+// import Swal from 'sweetalert2/dist/sweetalert2.js'
+import axios from 'axios'
 export default {
     name: 'ArticleCreateView',
     data(){
@@ -43,9 +43,21 @@ export default {
                     confirmButtonText: '확인'
                 })
                 return
-            }
-            const payload = {title,content}
-            this.$store.dispatch('createArticle', payload )
+            }axios({
+                method: 'post',
+                url: `http://127.0.0.1:8000/articles/`,
+                headers: {
+                Authorization: `Token ${this.$store.state.token}`
+                },
+                data: {title,content}
+            })
+            .then(()=>{
+                // console.log(response)
+                this.$router.push({name:'ArticleView'})
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         }
     }
 }

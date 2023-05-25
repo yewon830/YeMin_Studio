@@ -352,27 +352,6 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    createArticle(context,payload){
-            const title = payload.title
-            const content = payload.content
-
-            axios({
-                method: 'post',
-                url: `http://127.0.0.1:8000/articles/`,
-                headers: {
-                Authorization: `Token ${this.$store.state.token}`
-                },
-                data: {title,content}
-            })
-            .then(()=>{
-                // console.log(response)
-                this.$router.push({name:'ArticleView'})
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
-    },
-
     ////////////////아티클
     getArticleList(context){
       axios({
